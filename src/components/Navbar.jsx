@@ -1,5 +1,6 @@
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -8,8 +9,12 @@ function Navbar() {
         <div className="flex gap-2">
           <h1 className="self-center cursor-pointer">Logo</h1>
           <div className="flex ml-5 gap-3 self-center">
-            <h2 className="cursor-pointer">home</h2>
-            <h2 className="cursor-pointer">kategori</h2>
+            <Link to="/">
+              <h2 className="cursor-pointer">home</h2>
+            </Link>
+            <Link to="/detail">
+              <h2 className="cursor-pointer">kategori</h2>
+            </Link>
             <h2 className="cursor-pointer">kategori</h2>
           </div>
           <div className="flex ml-5">

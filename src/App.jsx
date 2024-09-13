@@ -1,6 +1,8 @@
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Home from "./pages/home";
+import { Routes, Route } from "react-router-dom";
+import NewsDetail from "./pages/NewsDetail";
 
 export default function App() {
   return (
@@ -9,7 +11,10 @@ export default function App() {
         <Navbar></Navbar>
       </header>
       <main className="bg-background-light">
-        <Home></Home>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/detail" element={<NewsDetail />} />
+        </Routes>
       </main>
       <footer>
         <Footer></Footer>
