@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Pagination from "./Pagination";
 
 const articles = [
-  // Daftar artikel (id, title, content)
   { id: 1, title: "Article 1", content: "Content of article 1" },
   { id: 2, title: "Article 2", content: "Content of article 2" },
   { id: 3, title: "Article 3", content: "Content of article 3" },
@@ -31,17 +30,19 @@ function ArticleList() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Articles</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <h1 className="text-3xl font-heading font-bold mb-6 text-secondary text-center">Articles</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {currentArticles.map((article) => (
-          <div key={article.id} className="border p-4 rounded-lg shadow">
-            <div className="bg-blue-500 h-40 flex items-center justify-center text-white">Item 1</div>
-            <h2 className="text-xl font-semibold">{article.title}</h2>
-            <p>{article.content}</p>
+          <div key={article.id} className="border border-gray-300 p-6 rounded-lg shadow-lg bg-white">
+            <div className="bg-accent h-40 flex items-center justify-center text-white rounded-t-lg">
+              <h2 className="text-xl font-semibold">Item {article.id}</h2>
+            </div>
+            <h2 className="text-xl font-heading font-semibold mt-4">{article.title}</h2>
+            <p className="mt-2 text-gray-700">{article.content}</p>
           </div>
         ))}
       </div>
-      <div className="items-center">
+      <div className="mt-6 flex justify-center">
         <Pagination articlesPerPage={articlesPerPage} totalArticles={articles.length} paginate={paginate} currentPage={currentPage} />
       </div>
     </div>

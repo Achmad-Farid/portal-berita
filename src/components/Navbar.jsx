@@ -19,13 +19,18 @@ function Navbar() {
           </div>
           <div className="flex ml-5">
             <input type="text" placeholder="Search..." className="px-2 rounded-s-md border" />
-            <button className="bg-secondary-blue p-1 rounded-r-md">
-              <MagnifyingGlassIcon className="h-5 w-5 text-white" />
+            <button className="bg-secondary-blue p-1 rounded-r-md border">
+              <MagnifyingGlassIcon className="h-5 w-5 text-neutral-dark" />
             </button>
           </div>
         </div>
-        <div className="flex">
-          <h1 className="self-center cursor-pointer">Profile</h1>
+        <div className="flex justify-center gap-4">
+          <Link to="/register">
+            <button className="px-3 py-1 bg-primary text-white rounded-md font-body text-base hover:scale-105 hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">Daftar</button>
+          </Link>
+          <Link to="/login">
+            <button className="px-3 py-1 bg-secondary text-white rounded-md font-body text-base hover:scale-105 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">Masuk</button>
+          </Link>
         </div>
       </nav>
     </>
