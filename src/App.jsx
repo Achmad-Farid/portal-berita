@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import NewsDetail from "./pages/NewsDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import SearchResult from "./pages/SearchResult";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/detail" element={<NewsDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/search" element={<SearchResult />} />
         </Routes>
       </main>
       <footer>

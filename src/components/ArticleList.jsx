@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Pagination from "./Pagination";
+import { Link } from "react-router-dom";
 
 const articles = [
   { id: 1, title: "Article 1", content: "Content of article 1" },
@@ -33,13 +34,17 @@ function ArticleList() {
       <h1 className="text-3xl font-heading font-bold mb-6 text-secondary text-center">Articles</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {currentArticles.map((article) => (
-          <div key={article.id} className="border border-gray-300 p-6 rounded-lg shadow-lg bg-white">
-            <div className="bg-accent h-40 flex items-center justify-center text-white rounded-t-lg">
-              <h2 className="text-xl font-semibold">Item {article.id}</h2>
+          <Link to="/detail">
+            <div key={article.id} className=" rounded-lg shadow-lg bg-white">
+              <div className="bg-accent h-40 flex items-center justify-center text-white rounded-t-lg">
+                <h2 className="text-xl font-semibold">Item {article.id}</h2>
+              </div>
+              <div className="p-2">
+                <h2 className="text-xl font-heading font-semibold">{article.title}</h2>
+                <p className="mt-2 text-neutral-dark">{article.content}</p>
+              </div>
             </div>
-            <h2 className="text-xl font-heading font-semibold mt-4">{article.title}</h2>
-            <p className="mt-2 text-gray-700">{article.content}</p>
-          </div>
+          </Link>
         ))}
       </div>
       <div className="mt-6 flex justify-center">
