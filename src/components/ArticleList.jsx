@@ -34,8 +34,8 @@ function ArticleList() {
       <h1 className="text-3xl font-heading font-bold mb-6 text-secondary text-center">Articles</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {currentArticles.map((article) => (
-          <Link to="/detail">
-            <div key={article.id} className=" rounded-lg shadow-lg bg-white">
+          <Link to="/detail" key={article.id}>
+            <div className="rounded-lg shadow-lg bg-white transform transition duration-300 hover:scale-105 hover:shadow-xl">
               <div className="bg-accent h-40 flex items-center justify-center text-white rounded-t-lg">
                 <h2 className="text-xl font-semibold">Item {article.id}</h2>
               </div>

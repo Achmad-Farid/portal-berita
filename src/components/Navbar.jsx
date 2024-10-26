@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import DropdownMenu from "./DropdownMenu";
 
 function Navbar() {
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("kategori1");
+  const categories = ["Nasional", "Internasional", "Ekonomi", "Teknologi", "Olahraga", "Hiburan", "Gaya Hidup", "Otomotif"];
+
   return (
     <nav
       className="flex gap-2 bg-white justify-between container mx-auto p-4 text-base"
@@ -16,14 +20,9 @@ function Navbar() {
             <h2 className="cursor-pointer hover:text-primary transition-colors duration-200">Home</h2>
             <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></div>
           </Link>
-          <DropdownMenu title="Nasional" />
-          <DropdownMenu title="Internasional" />
-          <DropdownMenu title="Ekonomi" />
-          <DropdownMenu title="Teknologi" />
-          <DropdownMenu title="Olahraga" />
-          <DropdownMenu title="Hiburan" />
-          <DropdownMenu title="Gaya Hidup" />
-          <DropdownMenu title="Otomotif" />
+          {categories.map((title) => (
+            <DropdownMenu key={title} setActiveDropdown={setActiveDropdown} activeDropdown={activeDropdown} title={title} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+          ))}
         </div>
         <div className="flex ml-5 items-center">
           <div className="flex w-full">
