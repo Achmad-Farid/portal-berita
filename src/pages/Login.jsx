@@ -18,10 +18,13 @@ function Login() {
             </label>
             <input type="password" id="password" name="password" className="w-full px-4 py-2 border rounded-md text-body text-primary border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter your password" />
           </div>
-          <button type="submit" className="w-full bg-primary hover:bg-accent text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-accent">
+          <button type="submit" className="w-full bg-primary text-white font-bold py-2 px-4 rounded hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-[#FF99E0] shadow-md hover:shadow-lg">
             Login
           </button>
         </form>
+        <div className="text-center mt-4">
+          <button className="w-full bg-secondary text-white font-bold py-2 px-4 rounded hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">Login with Google</button>
+        </div>
         <p className="text-center text-sm text-secondary mt-4">
           Doesnt have an account?{" "}
           <a href="/register" className="text-primary hover:underline">

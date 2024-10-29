@@ -129,7 +129,7 @@ function Register() {
               placeholder="Confirm your password"
             />
           </div>
-          <button type="submit" className="w-full px-4 py-2 bg-primary text-white rounded-md font-body text-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary">
+          <button type="submit" className="w-full bg-primary text-white font-bold py-2 px-4 rounded hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">
             Register
           </button>
         </form>
