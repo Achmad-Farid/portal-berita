@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import DropdownMenu from "./DropdownMenu";
+import defaultProfileImage from "../assets/default-profile.png"; // tambahkan gambar default profil
 
 function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [activeCategory, setActiveCategory] = useState("kategori1");
   const categories = ["Nasional", "Internasional", "Ekonomi", "Teknologi", "Olahraga", "Hiburan", "Gaya Hidup", "Otomotif"];
+
+  // Mengambil data pengguna dari Redux store atau context state lain
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  console.log(user);
 
   return (
     <nav
@@ -40,12 +46,26 @@ function Navbar() {
         </div>
       </div>
       <div className="flex justify-center gap-4">
-        <Link to="/register">
-          <button className="px-3 py-1 bg-primary text-white rounded-md font-body text-base hover:scale-105 hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-[#FF99E0] shadow-md hover:shadow-lg">Daftar</button>
-        </Link>
-        <Link to="/login">
-          <button className="px-3 py-1 bg-secondary text-white rounded-md font-body text-base hover:scale-105 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">Masuk</button>
-        </Link>
+        {user ? (
+          // Jika pengguna sudah login, tampilkan gambar profil
+          <Link to="/profile">
+            <img
+              src={user.profileImage || defaultProfileImage} // gunakan gambar profil jika ada, atau default
+              alt="Profile"
+              className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 cursor-pointer"
+            />
+          </Link>
+        ) : (
+          // Jika pengguna belum login, tampilkan tombol "Daftar" dan "Masuk"
+          <>
+            <Link to="/register">
+              <button className="px-3 py-1 bg-primary text-white rounded-md font-body text-base hover:scale-105 hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-[#FF99E0] shadow-md hover:shadow-lg">Daftar</button>
+            </Link>
+            <Link to="/login">
+              <button className="px-3 py-1 bg-secondary text-white rounded-md font-body text-base hover:scale-105 hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">Masuk</button>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

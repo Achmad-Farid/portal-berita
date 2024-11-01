@@ -1,53 +1,75 @@
+// src/redux/slices/authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { signup, login } from "../actions/authActions";
+import { signup, login, checkSession, logout } from "../actions/authActions";
 
-// Initial state
 const initialState = {
   user: null,
   loading: false,
   error: null,
+  isAuthenticated: false,
 };
 
-// Reducer
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    // Signup Reducers
-    builder.addCase(signup.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(signup.fulfilled, (state, action) => {
-      state.loading = false;
-      state.user = action.payload;
-    });
-    builder.addCase(signup.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
+    builder
+      .addCase(signup.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-    // Login Reducers
-    builder.addCase(login.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(login.fulfilled, (state, action) => {
-      state.loading = false;
-      state.user = action.payload;
-    });
-    builder.addCase(login.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(checkSession.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(checkSession.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = action.payload.success;
+        state.user = action.payload.user || null;
+      })
+      .addCase(checkSession.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = action.payload?.message || "Failed to authenticate session";
+      })
+
+      // Logout Reducers
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../redux/actions/authActions";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,24 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formError, setFormError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const dispatch = useDispatch();
+  const { loading, error, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Tampilkan popup sukses jika pendaftaran berhasil
+    if (user) {
+      setShowSuccessPopup(true);
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+        navigate("/login");
+      }, 2000);
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,27 +49,21 @@ function Register() {
     }
   };
 
-  const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Reset error messages
     setFormError("");
     setPasswordError("");
 
-    // Check if any field is empty
     if (!email || !username || !password || !confirmPassword) {
       setFormError("Lengkapi semua field sebelum mendaftar.");
       return;
     }
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       setPasswordError("Password dan konfirmasi password tidak cocok.");
       return;
     }
+
     dispatch(signup({ email, username, password }));
   };
 
@@ -59,19 +72,13 @@ function Register() {
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-3xl font-heading text-primary mb-6 text-center">Register</h1>
 
-        {/* Tampilan Loading */}
         {loading && <div className="text-center text-primary font-heading text-lg mb-4">Loading...</div>}
-
-        {/* Tampilan Error dari Server */}
         {error && <div className="text-center text-red-500 font-body text-sm mb-4">{error.message ? error.message : error}</div>}
-
-        {/* Tampilan Error untuk form kosong */}
         {formError && <div className="text-center text-red-500 font-body text-sm mb-4">{formError}</div>}
-
-        {/* Tampilan Error untuk password mismatch */}
         {passwordError && <div className="text-center text-red-500 font-body text-sm mb-4">{passwordError}</div>}
 
-        {/* Form Register */}
+        {showSuccessPopup && <div className="text-center text-green-500 font-heading text-lg mb-4">Pendaftaran berhasil! Mengalihkan ke halaman login...</div>}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-body text-secondary mb-2" htmlFor="username">
@@ -83,7 +90,7 @@ function Register() {
               name="username"
               value={username}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md text-body text-primary border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-md text-body border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Enter your username"
             />
           </div>
@@ -97,7 +104,7 @@ function Register() {
               name="email"
               value={email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md text-body text-primary border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border rounded-md text-body border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Enter your email"
             />
           </div>
@@ -105,29 +112,39 @@ function Register() {
             <label className="block text-sm font-body text-secondary mb-2" htmlFor="password">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md text-body text-primary border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Enter your password"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                value={password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md text-body border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Enter your password"
+              />
+              <button type="button" className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
           </div>
           <div>
             <label className="block text-sm font-body text-secondary mb-2" htmlFor="confirmPassword">
               Confirm Password
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md text-body text-primary border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Confirm your password"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md text-body border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Confirm your password"
+              />
+              <button type="button" className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                {showConfirmPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
           </div>
           <button type="submit" className="w-full bg-primary text-white font-bold py-2 px-4 rounded hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg">
             Register
