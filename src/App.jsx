@@ -9,6 +9,7 @@ import SearchResult from "./pages/SearchResult";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { checkSession } from "./redux/actions/authActions";
+import Profile from "./pages/Profile";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<SearchResult />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
       <footer>

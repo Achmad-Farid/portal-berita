@@ -3,22 +3,17 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DropdownMenu from "./DropdownMenu";
-import defaultProfileImage from "../assets/default-profile.png"; // tambahkan gambar default profil
+import defaultProfileImage from "../assets/default-profile.png";
 
 function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [activeCategory, setActiveCategory] = useState("kategori1");
   const categories = ["Nasional", "Internasional", "Ekonomi", "Teknologi", "Olahraga", "Hiburan", "Gaya Hidup", "Otomotif"];
 
-  // Mengambil data pengguna dari Redux store atau context state lain
   const { user, isAuthenticated } = useSelector((state) => state.auth);
-  console.log(user);
 
   return (
-    <nav
-      className="flex gap-2 bg-white justify-between container mx-auto p-4 text-base"
-      onMouseLeave={() => setActiveDropdown(null)} // Close dropdown when mouse leaves the navbar area
-    >
+    <nav className="flex gap-2 bg-white justify-between container mx-auto p-4 text-base" onMouseLeave={() => setActiveDropdown(null)}>
       <div className="flex gap-2">
         <h1 className="self-center cursor-pointer hover:scale-105 transition-transform duration-200">Logo</h1>
         <div className="flex ml-5 gap-3 self-center">
@@ -47,16 +42,10 @@ function Navbar() {
       </div>
       <div className="flex justify-center gap-4">
         {user ? (
-          // Jika pengguna sudah login, tampilkan gambar profil
           <Link to="/profile">
-            <img
-              src={user.profileImage || defaultProfileImage} // gunakan gambar profil jika ada, atau default
-              alt="Profile"
-              className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 cursor-pointer"
-            />
+            <img src={user.profilePicture || defaultProfileImage} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 cursor-pointer" />
           </Link>
         ) : (
-          // Jika pengguna belum login, tampilkan tombol "Daftar" dan "Masuk"
           <>
             <Link to="/register">
               <button className="px-3 py-1 bg-primary text-white rounded-md font-body text-base hover:scale-105 hover:bg-[#FF99E0] focus:outline-none focus:ring-2 focus:ring-[#FF99E0] shadow-md hover:shadow-lg">Daftar</button>
