@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
+import defaultProfileImage from "../assets/default-profile.png";
 
 function Profile() {
   const [activeTab, setActiveTab] = useState("user");
@@ -36,7 +37,7 @@ function Profile() {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex flex-col items-center">
               <img
-                src={user?.profilePicture || "default-profile.png"} // Ganti dengan path gambar default jika kosong
+                src={user?.profilePicture || defaultProfileImage} // Ganti dengan path gambar default jika kosong
                 alt="Foto Profil"
                 className="w-24 h-24 rounded-full mb-4"
               />

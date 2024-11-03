@@ -13,12 +13,19 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ identifier, password })).then(() => {
-      setSuccessMessage("Login successful!");
-      setTimeout(() => navigate("/"), 2000); // Redirect after 2 seconds
-    });
+    setSuccessMessage(""); // Reset success message on new attempt
+    try {
+      const result = await dispatch(login({ identifier, password }));
+      if (!result.error) {
+        // Check if login was successful
+        setSuccessMessage("Login successful!");
+        setTimeout(() => navigate("/"), 2000); // Redirect after 2 seconds
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -30,7 +37,7 @@ function Login() {
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
         <h1 className="text-3xl font-heading text-primary mb-6 text-center">Login</h1>
         {successMessage && <p className="text-center text-green-500 mb-4">{successMessage}</p>}
-        {error && <p className="text-center text-red-500 mb-4">{error}</p>}
+        {error && <p className="text-center text-red-500 mb-4">{error.message}</p>}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-body text-secondary mb-2">

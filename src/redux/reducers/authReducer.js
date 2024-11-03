@@ -56,7 +56,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = false;
         state.user = null;
-        state.error = action.payload?.message || "Failed to authenticate session";
+        state.error = action.payload?.message;
       })
 
       // Logout Reducers

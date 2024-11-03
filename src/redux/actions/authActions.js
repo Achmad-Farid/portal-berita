@@ -41,7 +41,7 @@ export const checkSession = createAsyncThunk("auth/checkSession", async () => {
 // Logout action
 export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${apiUrl}/auth/logout`);
+    const response = await axios.get(`${apiUrl}/auth/logout`, { withCredentials: true });
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response?.data || "Failed to logout");
