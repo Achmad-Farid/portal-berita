@@ -6,6 +6,9 @@ import "./style.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
+import { checkSession } from "./redux/actions/authActions.js";
+
+store.dispatch(checkSession());
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

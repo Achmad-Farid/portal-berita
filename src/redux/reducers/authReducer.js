@@ -1,6 +1,7 @@
 // src/redux/slices/authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { signup, login, checkSession, logout } from "../actions/authActions";
+import { jwtDecode } from "jwt-decode";
 
 const initialState = {
   user: null,
@@ -34,9 +35,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
+        const token = action.payload.token;
+        const user = jwtDecode(token);
+        localStorage.setItem("token", token);
+        state.user = user;
         state.isAuthenticated = true;
+        state.loading = false;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
