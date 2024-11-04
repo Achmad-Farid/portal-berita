@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../redux/actions/authActions";
+import { loginWithGoogle, signup } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -28,6 +28,10 @@ function Register() {
       }, 2000);
     }
   }, [user, navigate]);
+
+  const handleGoogleLogin = () => {
+    loginWithGoogle();
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,6 +154,11 @@ function Register() {
             Register
           </button>
         </form>
+        <div className="text-center mt-4">
+          <button onClick={handleGoogleLogin} className="w-full bg-secondary text-white font-bold py-2 px-4 rounded hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg" disabled={loading}>
+            {loading ? "Logging in..." : "Login with Google"}
+          </button>
+        </div>
 
         <p className="text-center text-sm text-secondary mt-4">
           Already have an account?{" "}

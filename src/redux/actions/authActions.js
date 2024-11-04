@@ -56,10 +56,10 @@ export const checkSession = createAsyncThunk("auth/checkSession", async (_, { re
       return { success: true, user };
     } else {
       // Jika tidak ada token
-      return rejectWithValue({ success: false, message: "No session available" });
+      return rejectWithValue({ success: false });
     }
   } catch (error) {
-    return rejectWithValue({ success: false, message: "Invalid token" });
+    return rejectWithValue({ success: false });
   }
 });
 
