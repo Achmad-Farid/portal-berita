@@ -156,7 +156,7 @@ function Register() {
         </form>
         <div className="text-center mt-4">
           <button onClick={handleGoogleLogin} className="w-full bg-secondary text-white font-bold py-2 px-4 rounded hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent shadow-md hover:shadow-lg" disabled={loading}>
-            {loading ? "Logging in..." : "Login with Google"}
+            {loading ? "Logging in..." : "Register with Google"}
           </button>
         </div>
 
