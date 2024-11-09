@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ArticleCard from "./ArticleCard";
 
 // Sample article data for each category
 const categoryArticles = {
@@ -45,10 +46,7 @@ function DropdownMenu({ title, setActiveDropdown, activeDropdown, activeCategory
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 bg-neutral-light mx-auto">
           {articles.map((article) => (
-            <div key={article.id} className="bg-white shadow-md rounded p-4">
-              <h3 className="text-lg font-bold">{article.title}</h3>
-              <p>{article.content}</p>
-            </div>
+            <ArticleCard key={article.id} article={article} /> // Gunakan ArticleCard
           ))}
         </div>
       </div>

@@ -40,13 +40,13 @@ function Login() {
         {error && <p className="text-center text-red-500 mb-4">{error.message}</p>}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email" className="block text-sm font-body text-secondary mb-2">
-              Email
+            <label htmlFor="text" className="block text-sm font-body text-secondary mb-2">
+              Email or Username
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="text"
+              id="text"
+              name="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               className="w-full px-4 py-2 border rounded-md text-body border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"

@@ -10,6 +10,8 @@ import Profile from "./pages/Profile";
 import { useEffect } from "react";
 import { checkSession } from "./redux/actions/authActions";
 import { useDispatch } from "react-redux";
+import AdminPage from "./admin/AdminPage";
+import JournalistPage from "./journalist/JournalistPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -44,6 +46,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<SearchResult />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/journalist" element={<JournalistPage />} />
         </Routes>
       </main>
       <footer>

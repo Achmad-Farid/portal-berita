@@ -12,8 +12,8 @@ function Profile() {
 
   const handleLogout = async () => {
     try {
-      dispatch(logout()); // Tambahkan await untuk menunggu proses logout selesai
-      navigate("/"); // Arahkan pengguna ke halaman utama setelah logout
+      dispatch(logout());
+      navigate("/");
     } catch (error) {
       console.error("Logout failed: ", error);
     }
@@ -36,13 +36,22 @@ function Profile() {
         {activeTab === "user" ? (
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex flex-col items-center">
-              <img
-                src={user?.profilePicture || defaultProfileImage} // Ganti dengan path gambar default jika kosong
-                alt="Foto Profil"
-                className="w-24 h-24 rounded-full mb-4"
-              />
+              <img src={user?.profilePicture || defaultProfileImage} alt="Foto Profil" className="w-24 h-24 rounded-full mb-4" />
               <h2 className="text-xl font-heading mb-2">{user?.username || "Pengguna Tanpa Nama"}</h2>
               <p className="text-gray">{user?.email || "Email tidak tersedia"}</p>
+
+              {/* Conditional Buttons based on Role */}
+              {user?.role === "admin" && (
+                <button onClick={() => navigate("/admin")} className="mt-4 px-6 py-2 bg-secondary text-white rounded-lg">
+                  Admin Dashboard
+                </button>
+              )}
+              {user?.role === "journalist" && (
+                <button onClick={() => navigate("/journalist")} className="mt-4 px-6 py-2 bg-accent text-white rounded-lg">
+                  Journalist Tools
+                </button>
+              )}
+
               <button onClick={handleLogout} className="mt-4 px-6 py-2 bg-primary text-white rounded-lg">
                 Logout
               </button>
@@ -50,7 +59,7 @@ function Profile() {
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Kartu Artikel */}
+            {/* Article Cards */}
             <div className="bg-white p-4 rounded-lg shadow-lg">
               <h3 className="font-heading text-lg mb-2 text-neutral-dark">Judul Artikel 1</h3>
               <p className="text-gray mb-4">Deskripsi singkat artikel ini.</p>
@@ -61,7 +70,6 @@ function Profile() {
               <p className="text-gray mb-4">Deskripsi singkat artikel ini.</p>
               <button className="text-accent font-semibold">Baca Selengkapnya</button>
             </div>
-            {/* Tambahkan lebih banyak kartu artikel jika diperlukan */}
           </div>
         )}
       </div>
