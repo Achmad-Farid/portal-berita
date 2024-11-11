@@ -1,16 +1,10 @@
 import React from "react";
-import ArticleCard from "./ArticleCard"; // Impor komponen ArticleCard
-import Pagination from "./Pagination"; // Impor komponen Pagination
+import ArticleCard from "./ArticleCard";
+import Pagination from "./Pagination";
 
-function ArticleList({ articles = [], currentPage, articlesPerPage, paginate }) {
-  // Menghitung artikel yang akan ditampilkan berdasarkan halaman saat ini
-  const indexOfLastArticle = currentPage * articlesPerPage;
-  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
-
+function ArticleList({ articles = [], currentPage, totalPages, handlePageChange }) {
   return (
     <div className="container mx-auto p-4">
-      {/* Menampilkan pesan jika tidak ada artikel */}
       {articles.length === 0 ? (
         <div className="text-center text-neutral-dark">
           <p className="text-2xl font-semibold text-accent mb-4">Oops! No articles available.</p>
@@ -18,16 +12,14 @@ function ArticleList({ articles = [], currentPage, articlesPerPage, paginate }) 
         </div>
       ) : (
         <>
-          {/* Daftar artikel */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {currentArticles.map((article) => (
+            {articles.map((article) => (
               <ArticleCard key={article._id} article={article} />
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="mt-6 flex justify-center">
-            <Pagination articlesPerPage={articlesPerPage} totalArticles={articles.length} paginate={paginate} currentPage={currentPage} />
+            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
           </div>
         </>
       )}

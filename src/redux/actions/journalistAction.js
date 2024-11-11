@@ -4,22 +4,24 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 // Async thunk untuk mengambil data berita
-export const fetchBerita = createAsyncThunk("berita/fetchBerita", async () => {
+export const fetchBerita = createAsyncThunk("berita/fetchBerita", async (_, { rejectWithValue }) => {
   const token = localStorage.getItem("token");
 
   if (!token) {
     return rejectWithValue("No token found");
   }
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+  try {
+    const response = await axios.get(`${apiUrl}/journalist/articles`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  const response = await fetch(`${apiUrl}/journalist/articles`, config);
-  const data = await response.json();
-  return data.articles;
+    return response.data.articles;
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || "Failed to fetch articles");
+  }
 });
 
 export const submitArticle = createAsyncThunk("article/submitArticle", async ({ title, content, tags }, { rejectWithValue }) => {

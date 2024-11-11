@@ -6,7 +6,7 @@ const beritaSlice = createSlice({
   initialState: {
     articles: [],
     currentPage: 1,
-    articlesPerPage: 5,
+    articlesPerPage: 10,
     status: "idle",
     error: null,
   },

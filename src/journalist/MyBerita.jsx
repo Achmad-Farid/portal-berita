@@ -10,12 +10,12 @@ const BeritaContent = () => {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchBerita()); // Mengambil data artikel dari API atau sumber lain
+      dispatch(fetchBerita());
     }
   }, [dispatch, status]);
 
   const paginate = (pageNumber) => {
-    dispatch(setCurrentPage(pageNumber)); // Mengupdate halaman aktif di Redux
+    dispatch(setCurrentPage(pageNumber));
   };
 
   if (status === "loading") {
@@ -39,7 +39,7 @@ const BeritaContent = () => {
         </select>
       </div>
 
-      <ArticleList articles={articles} currentPage={currentPage} articlesPerPage={articlesPerPage} paginate={paginate} />
+      <ArticleList articles={articles} currentPage={currentPage} articlesPerPage={articlesPerPage} handlePageChange={handlePageChange} />
     </div>
   );
 };
