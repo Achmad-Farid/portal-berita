@@ -29,6 +29,8 @@ export const login = createAsyncThunk("auth/login", async ({ identifier, passwor
     const response = await axios.post(`${apiUrl}/auth/login`, { identifier, password });
     const { token } = response.data;
     if (token) {
+      const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
+      localStorage.setItem("tokenExpiration", expirationTime);
       localStorage.setItem("token", token);
       setAuthToken(token);
     }
@@ -46,16 +48,22 @@ export const loginWithGoogle = () => {
 // Async thunk untuk memeriksa status sesi dengan JWT token
 export const checkSession = createAsyncThunk("auth/checkSession", async (_, { rejectWithValue }) => {
   try {
-    // Cek apakah token ada di localStorage
     const token = localStorage.getItem("token");
 
     if (token) {
-      // Jika token ada, decode untuk mendapatkan data pengguna
       const user = jwtDecode(token);
       setAuthToken(token);
       return { success: true, user };
+    }
+
+    if (token && tokenExpiration) {
+      const currentTime = new Date().getTime();
+      if (currentTime > tokenExpiration) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("tokenExpiration");
+        return rejectWithValue({ success: false });
+      }
     } else {
-      // Jika tidak ada token
       return rejectWithValue({ success: false });
     }
   } catch (error) {

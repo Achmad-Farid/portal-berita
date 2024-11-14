@@ -3,18 +3,8 @@ import React from "react";
 function Pagination({ totalPages, currentPage, onPageChange }) {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  // Misalkan kita memiliki 10 artikel per halaman, kita hitung rentang artikel yang ditampilkan
-  const articlesPerPage = 10;
-  const totalArticles = totalPages * articlesPerPage;
-  const startArticleIndex = (currentPage - 1) * articlesPerPage + 1;
-  const endArticleIndex = Math.min(currentPage * articlesPerPage, totalArticles);
-
   return (
     <nav className="mt-4">
-      {/* Tampilkan rentang artikel */}
-      <p className="text-center text-gray-600 mb-4">
-        Showing articles {startArticleIndex} - {endArticleIndex} of {totalArticles}
-      </p>
       <ul className="inline-flex items-center justify-center w-full space-x-2">
         {/* Tombol Previous */}
         <li>

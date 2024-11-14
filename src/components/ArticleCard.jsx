@@ -8,7 +8,6 @@ function ArticleCard({ article }) {
   // Find the first image in the content array
   const firstImage = contentArray.find((item) => item.type === "image");
   const imageUrl = firstImage ? firstImage.value : null;
-  console.log(imageUrl);
 
   return (
     <Link to={`/detail/${article._id}`} key={article._id}>

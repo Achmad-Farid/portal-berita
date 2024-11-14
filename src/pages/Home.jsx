@@ -34,7 +34,6 @@ function Home() {
         <Carrousel />
       </div>
       <div>
-        {/* Hanya mempengaruhi ArticleList tanpa mereload seluruh halaman */}
         <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
       </div>
     </>

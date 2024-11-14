@@ -21,7 +21,9 @@ export default function App() {
     const token = queryParams.get("token");
 
     if (token) {
+      const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
       localStorage.setItem("token", token);
+      localStorage.setItem("tokenExpiration", expirationTime);
 
       dispatch(checkSession());
 

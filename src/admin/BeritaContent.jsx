@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPage } from "../redux/reducers/articleReducer";
+import { fetchAllBerita } from "../redux/actions/adminAction";
+import ArticleList from "../components/ArticleList";
 
 const BeritaContent = () => {
+  const dispatch = useDispatch();
+  const { articles, currentPage, totalPages, status, error } = useSelector((state) => state.admin);
+
+  useEffect(() => {
+    dispatch(fetchAllBerita(currentPage));
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (page) => {
+    dispatch(setCurrentPage(page));
+  };
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Berita</h2>
@@ -13,22 +36,8 @@ const BeritaContent = () => {
         </select>
       </div>
 
-      {/* News Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {[...Array(9)].map((_, i) => (
-          <div key={i} className="border p-4 rounded shadow bg-white">
-            <h3 className="font-bold">Berita {i + 1}</h3>
-            <p className="text-gray-600">Ini adalah ringkasan berita.</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex justify-center mt-4">
-        <button className="px-4 py-2 mx-1 bg-secondary text-white rounded">1</button>
-        <button className="px-4 py-2 mx-1">2</button>
-        <button className="px-4 py-2 mx-1">3</button>
-      </div>
+      {/* articles*/}
+      <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
     </div>
   );
 };
