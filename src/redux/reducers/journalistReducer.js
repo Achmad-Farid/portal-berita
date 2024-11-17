@@ -6,7 +6,7 @@ const beritaSlice = createSlice({
   initialState: {
     articles: [],
     currentPage: 1,
-    articlesPerPage: 10,
+    totalPages: 0,
     status: "idle",
     error: null,
   },
@@ -19,14 +19,18 @@ const beritaSlice = createSlice({
     builder
       .addCase(fetchBerita.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(fetchBerita.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.articles = action.payload;
+        state.error = null;
+        state.articles = action.payload.articles;
+        state.currentPage = action.payload.currentPage;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchBerita.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });

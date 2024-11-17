@@ -4,21 +4,17 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 // Async thunk untuk mengambil data berita
-export const fetchBerita = createAsyncThunk("berita/fetchBerita", async (_, { rejectWithValue }) => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return rejectWithValue("No token found");
-  }
-
+export const fetchBerita = createAsyncThunk("berita/fetchAllBerita", async (page = 1, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${apiUrl}/journalist/articles`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      params: { page, limit: 9 },
     });
 
-    return response.data.articles;
+    return {
+      articles: response.data.articles,
+      currentPage: response.data.currentPage,
+      totalPages: response.data.totalPages,
+    };
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || "Failed to fetch articles");
   }
@@ -26,19 +22,7 @@ export const fetchBerita = createAsyncThunk("berita/fetchBerita", async (_, { re
 
 export const submitArticle = createAsyncThunk("article/submitArticle", async ({ title, content, tags }, { rejectWithValue }) => {
   try {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      return rejectWithValue("No token found");
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const response = await axios.post(`${apiUrl}/journalist/articles`, { title, content, tags }, config);
+    const response = await axios.post(`${apiUrl}/journalist/articles`, { title, content, tags });
 
     return response.message;
   } catch (error) {

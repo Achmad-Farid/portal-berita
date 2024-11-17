@@ -35,6 +35,10 @@ export default function App() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(checkSession());
+  }, [dispatch]);
+
   return (
     <>
       <header className="sticky top-0 z-50 shadow-md bg-white">
@@ -43,7 +47,7 @@ export default function App() {
       <main className="bg-background-light">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/detail" element={<NewsDetail />} />
+          <Route path="/detail/:id" element={<NewsDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<SearchResult />} />

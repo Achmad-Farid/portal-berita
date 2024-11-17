@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import BeritaContent from "./MyBerita";
 import CreateArticle from "./CreateArticel";
+import { useDispatch } from "react-redux";
+import { checkSession } from "../redux/actions/authActions";
 
 const JournalistPage = () => {
   const [activeTab, setActiveTab] = useState("myberita");
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkSession());
+  }, [dispatch]);
   return (
     <div className="flex min-h-screen bg-neutral-light">
       {/* Sidebar */}

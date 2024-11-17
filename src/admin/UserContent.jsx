@@ -1,36 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers, fetchUsersByRole } from "../redux/actions/adminAction";
+import { deleteUser, fetchAllUsers, fetchUsersByRole, updateUserRole } from "../redux/actions/adminAction";
 import { setCurrentPage } from "../redux/reducers/articleReducer";
+import Pagination from "../components/Pagination";
 
 const UserContent = () => {
   const dispatch = useDispatch();
-  const { users, currentPage, totalPages, statusFetchUsers, statusFetchUsersByRole } = useSelector((state) => state.admin); // Default value of users is set to an empty array
-  const [role, setRole] = useState(""); // State to track selected role for filtering
-  const [searchTerm, setSearchTerm] = useState(""); // State to track search term
+  const { users, currentPage, totalPages, statusFetchUsers, statusFetchUsersByRole } = useSelector((state) => state.admin);
+  const [role, setRole] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (role) {
-      // If role is selected, fetch users by role
       dispatch(fetchUsersByRole({ role, page: currentPage, limit: 9 }));
     } else {
-      // If no role selected, fetch all users
       dispatch(fetchAllUsers({ page: currentPage, limit: 9 }));
     }
   }, [dispatch, role, currentPage]);
 
-  // Handle change in search input (not yet implemented in the actions)
+  useEffect(() => {
+    dispatch(setCurrentPage(1));
+  }, [role, searchTerm, dispatch]);
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Handle role selection change
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
 
   const handlePageChange = (page) => {
     dispatch(setCurrentPage(page));
+  };
+
+  const handleEditChange = (userId, newRole) => {
+    dispatch(updateUserRole({ userId, role: newRole }));
+  };
+
+  const handleDelete = (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      dispatch(deleteUser(userId));
+    }
   };
 
   return (
@@ -60,10 +71,17 @@ const UserContent = () => {
                 <div>
                   <h3 className="font-bold">{user.username}</h3>
                   <p className="text-gray-600">Role: {user.role}</p>
+                  <p className="text-gray-600">email: {user.email}</p>
                 </div>
-                <div className="space-x-2">
-                  <button className="px-2 py-1 bg-secondary text-white rounded">Edit</button>
-                  <button className="px-2 py-1 bg-red-500 text-white rounded">Delete</button>
+                <div className="space-x-2 flex flex-col items-center gap-2">
+                  <select value={user.role} onChange={(e) => handleEditChange(user._id, e.target.value)} className="px-2 py-1 bg-secondary text-white rounded">
+                    <option value="user">User</option>
+                    <option value="journalist">Journalist</option>
+                  </select>
+
+                  <button onClick={() => handleDelete(user._id)} className="px-2 py-1 bg-red-500 text-white rounded">
+                    Delete
+                  </button>
                 </div>
               </div>
             ))
@@ -71,17 +89,7 @@ const UserContent = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between mt-4">
-        <button className="px-4 py-2 bg-gray-300 rounded" disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button className="px-4 py-2 bg-gray-300 rounded" disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)}>
-          Next
-        </button>
-      </div>
+      <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange}></Pagination>
     </div>
   );
 };

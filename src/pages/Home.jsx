@@ -20,12 +20,8 @@ function Home() {
     dispatch(setCurrentPage(page));
   };
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  if (status === "failed") {
-    return <div>Error: {error}</div>;
+  function retry() {
+    dispatch(fetchBerita());
   }
 
   return (
@@ -34,7 +30,7 @@ function Home() {
         <Carrousel />
       </div>
       <div>
-        <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
+        <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} error={error} status={status} retry={retry} />
       </div>
     </>
   );

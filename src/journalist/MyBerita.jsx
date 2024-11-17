@@ -1,36 +1,29 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBerita } from "../redux/actions/journalistAction"; // Pastikan pathnya sesuai dengan actions Anda
-import { setCurrentPage } from "../redux/reducers/journalistReducer";
-import ArticleList from "../components/ArticleList"; // Impor komponen ArticleList
+import { setCurrentPage } from "../redux/reducers/articleReducer";
+import ArticleList from "../components/ArticleList";
+import { fetchBerita } from "../redux/actions/journalistAction";
 
 const BeritaContent = () => {
   const dispatch = useDispatch();
-  const { articles, currentPage, articlesPerPage, status, error } = useSelector((state) => state.journalist);
+  const { articles, currentPage, totalPages, status, error } = useSelector((state) => state.journalist);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchBerita());
-    }
-  }, [dispatch, status]);
+    dispatch(fetchBerita(currentPage));
+  }, [dispatch, currentPage]);
 
-  const paginate = (pageNumber) => {
-    dispatch(setCurrentPage(pageNumber));
+  const handlePageChange = (page) => {
+    dispatch(setCurrentPage(page));
   };
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  if (status === "failed") {
-    return <div>Error: {error}</div>;
+  function retry() {
+    dispatch(fetchBerita());
   }
 
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Berita</h2>
-
-      {/* Pencarian dan Filter */}
+      {/* Search and Filter */}
       <div className="flex items-center mb-4 space-x-4">
         <input type="text" placeholder="Search..." className="border p-2 rounded w-full max-w-xs" />
         <select className="border p-2 rounded">
@@ -39,7 +32,8 @@ const BeritaContent = () => {
         </select>
       </div>
 
-      <ArticleList articles={articles} currentPage={currentPage} articlesPerPage={articlesPerPage} handlePageChange={handlePageChange} />
+      {/* articles*/}
+      <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} error={error} status={status} retry={retry} />
     </div>
   );
 };

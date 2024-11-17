@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllBerita, fetchUnderBerita, fetchAllUsers, fetchUsersByRole } from "../actions/adminAction";
+import { fetchAllBerita, fetchUnderBerita, fetchAllUsers, fetchUsersByRole, updateUserRole, deleteUser } from "../actions/adminAction";
 import { fetchBerita } from "../actions/articleAction";
 
 const beritaSlice = createSlice({
@@ -91,6 +91,30 @@ const beritaSlice = createSlice({
       })
       .addCase(fetchUsersByRole.rejected, (state, action) => {
         state.statusFetchUsersByRole = "failed";
+        state.error = action.payload;
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.users = state.users.filter((user) => user._id !== action.meta.arg);
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      // Update User Role
+      .addCase(updateUserRole.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateUserRole.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const updatedUser = action.payload.updatedUser;
+        state.users = state.users.map((user) => (user._id === updatedUser._id ? updatedUser : user));
+      })
+      .addCase(updateUserRole.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
       });
   },

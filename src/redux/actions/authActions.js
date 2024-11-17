@@ -49,20 +49,23 @@ export const loginWithGoogle = () => {
 export const checkSession = createAsyncThunk("auth/checkSession", async (_, { rejectWithValue }) => {
   try {
     const token = localStorage.getItem("token");
+    const tokenExpiration = localStorage.getItem("tokenExpiration");
 
     if (token) {
       const user = jwtDecode(token);
+
+      if (token && tokenExpiration) {
+        const currentTime = new Date().getTime();
+
+        if (currentTime > tokenExpiration) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("tokenExpiration");
+          return rejectWithValue({ success: false });
+        }
+      }
+
       setAuthToken(token);
       return { success: true, user };
-    }
-
-    if (token && tokenExpiration) {
-      const currentTime = new Date().getTime();
-      if (currentTime > tokenExpiration) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("tokenExpiration");
-        return rejectWithValue({ success: false });
-      }
     } else {
       return rejectWithValue({ success: false });
     }

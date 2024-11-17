@@ -57,7 +57,8 @@ export const fetchAllUsers = createAsyncThunk("users/fetchAllUsers", async ({ pa
 // Async thunk untuk mengambil pengguna berdasarkan role dengan pagination
 export const fetchUsersByRole = createAsyncThunk("users/fetchUsersByRole", async ({ role, page = 1, limit = 10 }, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${apiUrl}admin/users/role/${role}`, {
+    console.log(`${apiUrl}/admin/users/role/${role}`);
+    const response = await axios.get(`${apiUrl}/admin/users/role/${role}`, {
       params: { page, limit },
     });
 
@@ -68,5 +69,25 @@ export const fetchUsersByRole = createAsyncThunk("users/fetchUsersByRole", async
     };
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || "Failed to fetch users by role");
+  }
+});
+
+// Thunk untuk menghapus pengguna
+export const deleteUser = createAsyncThunk("admin/deleteUser", async (userId, { rejectWithValue }) => {
+  try {
+    const response = await axios.delete(`${apiUrl}/admin/users/delete${userId}`);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || "Error deleting user");
+  }
+});
+
+// Thunk untuk memperbarui role pengguna
+export const updateUserRole = createAsyncThunk("admin/updateUserRole", async ({ userId, role }, { rejectWithValue }) => {
+  try {
+    const response = await axios.patch(`${apiUrl}/admin/users/role/${userId}`, { role });
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || "Error updating user role");
   }
 });

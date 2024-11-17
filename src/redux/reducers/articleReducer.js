@@ -19,9 +19,11 @@ const beritaSlice = createSlice({
     builder
       .addCase(fetchBerita.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(fetchBerita.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.error = null;
         state.articles = action.payload.articles;
         state.currentPage = action.payload.currentPage;
         state.totalPages = action.payload.totalPages;

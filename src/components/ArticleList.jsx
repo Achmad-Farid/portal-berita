@@ -1,8 +1,18 @@
 import React from "react";
 import ArticleCard from "./ArticleCard";
 import Pagination from "./Pagination";
+import Loading from "./Loading";
+import Error from "./Error";
 
-function ArticleList({ articles = [], currentPage, totalPages, handlePageChange }) {
+function ArticleList({ articles = [], currentPage, totalPages, handlePageChange, status, error, retry }) {
+  if (status === "loading") {
+    return <Loading></Loading>;
+  }
+
+  if (error) {
+    return <Error onRetry={retry}></Error>;
+  }
+
   return (
     <div className="container mx-auto p-4">
       {articles.length === 0 ? (
