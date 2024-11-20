@@ -36,7 +36,7 @@ function Profile() {
         {activeTab === "user" ? (
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex flex-col items-center">
-              <img src={user?.profilePicture || defaultProfileImage} alt="Foto Profil" className="w-24 h-24 rounded-full mb-4" />
+              <img crossOrigin="anonymous" src={user?.profilePicture || defaultProfileImage} alt="Foto Profil" className="w-24 h-24 rounded-full mb-4" />
               <h2 className="text-xl font-heading mb-2">{user?.username || "Pengguna Tanpa Nama"}</h2>
               <p className="text-gray">{user?.email || "Email tidak tersedia"}</p>
 

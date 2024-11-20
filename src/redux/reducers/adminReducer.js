@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllBerita, fetchUnderBerita, fetchAllUsers, fetchUsersByRole, updateUserRole, deleteUser } from "../actions/adminAction";
+import { fetchAllBerita, fetchUnderBerita, fetchAllUsers, fetchUsersByRole, updateUserRole, deleteUser, publishArticle, unpublishArticle, deleteArticle, fetchSearchArticles } from "../actions/adminAction";
 import { fetchBerita } from "../actions/articleAction";
 
 const beritaSlice = createSlice({
@@ -9,6 +9,7 @@ const beritaSlice = createSlice({
     articles: [],
     currentPage: 1,
     totalPages: 0,
+    status: "idle",
     statusFetchBerita: "idle",
     statusFetchAllBerita: "idle",
     statusFetchUnderBerita: "idle",
@@ -116,6 +117,42 @@ const beritaSlice = createSlice({
       .addCase(updateUserRole.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(publishArticle.fulfilled, (state, action) => {
+        const index = state.articles.findIndex((article) => article._id === action.payload._id);
+        if (index !== -1) {
+          state.articles[index] = action.payload;
+        }
+      })
+      .addCase(unpublishArticle.fulfilled, (state, action) => {
+        const index = state.articles.findIndex((article) => article._id === action.payload._id);
+        if (index !== -1) {
+          state.articles[index] = action.payload;
+        }
+      })
+      .addCase(deleteArticle.fulfilled, (state, action) => {
+        state.articles = state.articles.filter((article) => article._id !== action.payload);
+      })
+      .addCase(publishArticle.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(unpublishArticle.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(deleteArticle.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(fetchSearchArticles.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSearchArticles.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.articles = action.payload.articles;
+        state.totalPages = action.payload.totalPages;
+      })
+      .addCase(fetchSearchArticles.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });

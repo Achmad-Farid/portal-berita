@@ -43,7 +43,7 @@ function Navbar() {
       <div className="flex justify-center gap-4">
         {user ? (
           <Link to="/profile">
-            <img src={user.profilePicture || defaultProfileImage} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 cursor-pointer" />
+            <img crossOrigin="anonymous" src={user.profilePicture || defaultProfileImage} alt="Profile" className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 cursor-pointer" />
           </Link>
         ) : (
           <>

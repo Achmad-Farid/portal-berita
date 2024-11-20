@@ -42,6 +42,10 @@ function CreateArticle() {
       .unwrap()
       .then(() => {
         setPopupMessage("Article created successfully!");
+        // Reset form jika diperlukan
+        setTitle("");
+        setContent([{ type: "text", value: "", position: 1 }]);
+        setTags([]);
       })
       .catch((error) => {
         setPopupMessage(`Error: ${error.message}`);
@@ -63,7 +67,7 @@ function CreateArticle() {
         <div>
           <label className="block font-sans text-gray">Content</label>
           {content.map((item, index) => (
-            <div key={index} className="flex items-center mb-2">
+            <div key={index} className="flex items-start mb-2">
               <select
                 value={item.type}
                 onChange={(e) => {
@@ -77,27 +81,35 @@ function CreateArticle() {
                 <option value="image">Image URL</option>
                 <option value="subtitle">Subtitle</option>
               </select>
-              <input type="text" value={item.value} onChange={(e) => handleContentChange(index, e.target.value)} className="w-full p-2 border border-gray-300 rounded" placeholder={`Enter ${item.type}`} />
+              <div className="flex-1">
+                {item.type === "text" ? (
+                  <textarea value={item.value} onChange={(e) => handleContentChange(index, e.target.value)} className="w-full p-2 border border-gray-300 rounded" placeholder="Enter text" rows={3} />
+                ) : (
+                  <input type="text" value={item.value} onChange={(e) => handleContentChange(index, e.target.value)} className="w-full p-2 border border-gray-300 rounded" placeholder={`Enter ${item.type}`} />
+                )}
+              </div>
               <button type="button" onClick={() => handleRemoveContent(index)} className="ml-2 text-red-500 underline text-sm">
                 Remove
               </button>
             </div>
           ))}
-          <button type="button" onClick={() => handleAddContent("text")} className="text-sm text-secondary underline">
-            Add Text
-          </button>
-          <button type="button" onClick={() => handleAddContent("image")} className="ml-2 text-sm text-secondary underline">
-            Add Image
-          </button>
-          <button type="button" onClick={() => handleAddContent("subtitle")} className="ml-2 text-sm text-secondary underline">
-            Add Subtitle
-          </button>
+          <div className="mt-2">
+            <button type="button" onClick={() => handleAddContent("text")} className="text-sm text-secondary underline mr-2">
+              Add Text
+            </button>
+            <button type="button" onClick={() => handleAddContent("image")} className="text-sm text-secondary underline mr-2">
+              Add Image
+            </button>
+            <button type="button" onClick={() => handleAddContent("subtitle")} className="text-sm text-secondary underline">
+              Add Subtitle
+            </button>
+          </div>
         </div>
 
         {/* Input Tag */}
         <div>
           <label className="block font-sans text-gray">Tags</label>
-          <input type="text" value={tags.join(",")} onChange={(e) => setTags(e.target.value.split(","))} className="w-full p-2 border border-gray-300 rounded" placeholder="Separate tags with commas" />
+          <input type="text" value={tags.join(",")} onChange={(e) => setTags(e.target.value.split(",").map((tag) => tag.trim()))} className="w-full p-2 border border-gray-300 rounded" placeholder="Separate tags with commas" />
         </div>
 
         {/* Tombol Submit */}
@@ -113,7 +125,7 @@ function CreateArticle() {
         <div className="mt-4">
           {content.map((item, index) => (
             <div key={index} className="mb-4">
-              {item.type === "text" && <p className="text-gray">{item.value}</p>}
+              {item.type === "text" && <p className="text-gray whitespace-pre-wrap">{item.value}</p>}
               {item.type === "image" && <img src={item.value} alt="Content Image" className="w-full h-auto rounded" />}
               {item.type === "subtitle" && <h4 className="text-lg font-heading text-accent">{item.value}</h4>}
             </div>
