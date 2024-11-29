@@ -1,25 +1,34 @@
 import { Link } from "react-router-dom";
 import ArticleCard from "./ArticleCard";
-
-// Sample article data for each category
-const categoryArticles = {
-  kategori1: [
-    { id: 1, title: "Article 1", content: "Content of article 1" },
-    { id: 2, title: "Article 2", content: "Content of article 2" },
-  ],
-  kategori2: [
-    { id: 3, title: "Article 3", content: "Content of article 3" },
-    { id: 4, title: "Article 4", content: "Content of article 4" },
-  ],
-  kategori3: [
-    { id: 5, title: "Article 5", content: "Content of article 5" },
-    { id: 6, title: "Article 6", content: "Content of article 6" },
-  ],
-};
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function DropdownMenu({ title, setActiveDropdown, activeDropdown, activeCategory, setActiveCategory }) {
+  const [itemsPerRow, setItemsPerRow] = useState(4); // Default jumlah artikel
   const isActive = activeDropdown === title;
-  const articles = categoryArticles[activeCategory] || [];
+  const { tagArticles, tagLoading, tagError } = useSelector((state) => state.articles);
+  const articles = tagArticles[activeCategory] || [];
+  const tags = tagArticles ? Object.keys(tagArticles).map((key) => key.toLocaleLowerCase()) : [];
+
+  // Perbarui jumlah artikel berdasarkan lebar layar
+  useEffect(() => {
+    const updateItemsPerRow = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsPerRow(4); // Untuk layar besar
+      } else if (window.innerWidth >= 768) {
+        setItemsPerRow(3); // Untuk layar sedang
+      } else if (window.innerWidth >= 640) {
+        setItemsPerRow(2); // Untuk layar kecil
+      } else {
+        setItemsPerRow(1); // Untuk layar sangat kecil
+      }
+    };
+
+    updateItemsPerRow(); // Panggil saat komponen dimuat
+    window.addEventListener("resize", updateItemsPerRow); // Dengarkan perubahan ukuran layar
+
+    return () => window.removeEventListener("resize", updateItemsPerRow); // Bersihkan event listener
+  }, []);
 
   return (
     <div
@@ -31,22 +40,19 @@ function DropdownMenu({ title, setActiveDropdown, activeDropdown, activeCategory
         <div className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></div>
       </Link>
 
-      {/* Kategori */}
-      <div className={`mt-4 w-screen fixed left-1/2 transform -translate-x-1/2 bg-transparent shadow-lg rounded z-10 overflow-hidden transition-all duration-300 ease-in-out ${isActive ? "max-h-screen slide-down" : "max-h-0 slide-up"}`}>
-        <div className="mx-auto px-96 flex justify-around bg-neutral-light">
-          {["kategori1", "kategori2", "kategori3"].map((cat, index) => (
-            <div
-              key={index}
-              className={`p-2 rounded transition-colors duration-200 ${activeCategory === cat ? "bg-primary text-white" : "hover:bg-neutral-dark hover:text-white"}`}
-              onMouseEnter={() => setActiveCategory(cat)} // Set kategori aktif
-            >
+      <div className={`fixed left-1/2 transform -translate-x-1/2 w-screen z-10 bg-transparent shadow-lg rounded overflow-hidden transition-all duration-300 ease-in-out ${isActive ? "max-h-screen slide-down" : "max-h-0 slide-up"} mt-4`}>
+        <div className="flex justify-around px-96 mx-auto bg-neutral-light">
+          {tags.map((cat, index) => (
+            <div key={index} className={`p-2 rounded transition-colors duration-200 ${activeCategory === cat ? "bg-primary text-white" : "hover:bg-neutral-dark hover:text-white"}`} onMouseEnter={() => setActiveCategory(cat)}>
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 bg-neutral-light mx-auto">
-          {articles.map((article) => (
-            <ArticleCard key={article.id} article={article} /> // Gunakan ArticleCard
+
+        {/* Bagian artikel */}
+        <div className="grid gap-4 p-4 mx-auto bg-neutral-light grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {articles.slice(0, itemsPerRow).map((article) => (
+            <ArticleCard key={article._id} article={article} />
           ))}
         </div>
       </div>

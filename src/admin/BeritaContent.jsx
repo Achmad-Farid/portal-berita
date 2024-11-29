@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../redux/reducers/articleReducer";
 import { fetchAllBerita, fetchUnderBerita, fetchSearchArticles } from "../redux/actions/adminAction";
+import { fetchBerita } from "../redux/actions/articleAction";
 import ArticleList from "../components/ArticleList";
 
 const BeritaContent = () => {
@@ -17,6 +18,8 @@ const BeritaContent = () => {
         dispatch(fetchAllBerita(currentPage));
       } else if (filter === "underReview") {
         dispatch(fetchUnderBerita(currentPage));
+      } else if (filter === "published") {
+        dispatch(fetchBerita(currentPage));
       }
     }
   }, [dispatch, currentPage, searchQuery, filter]);
@@ -37,13 +40,15 @@ const BeritaContent = () => {
         dispatch(fetchAllBerita(currentPage));
       } else if (filter === "underReview") {
         dispatch(fetchUnderBerita(currentPage));
+      } else if (filter === "published") {
+        dispatch(fetchBerita(currentPage));
       }
     }
   };
 
   const handleFilterChange = (event) => {
-    setFilter(event.target.value); // Update filter state
-    dispatch(setCurrentPage(1)); // Reset to page 1 when filter changes
+    setFilter(event.target.value);
+    dispatch(setCurrentPage(1));
   };
 
   if (status === "loading") {
@@ -63,11 +68,7 @@ const BeritaContent = () => {
         <button onClick={handleSearchClick} className="bg-blue-500 text-white px-4 py-2 rounded">
           Search
         </button>
-        <select
-          className="border p-2 rounded"
-          value={filter}
-          onChange={handleFilterChange} // Handle filter change
-        >
+        <select className="border p-2 rounded" value={filter} onChange={handleFilterChange}>
           <option value="all">All</option>
           <option value="published">Published</option>
           <option value="underReview">Under Review</option>

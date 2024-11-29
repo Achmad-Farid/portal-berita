@@ -12,6 +12,7 @@ import { checkSession } from "./redux/actions/authActions";
 import { useDispatch } from "react-redux";
 import AdminPage from "./admin/AdminPage";
 import JournalistPage from "./journalist/JournalistPage";
+import EditArticle from "./journalist/EditArticle";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -50,10 +51,11 @@ export default function App() {
           <Route path="/detail/:id" element={<NewsDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/search" element={<SearchResult />} />
+          <Route path="/search/:query" element={<SearchResult />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/journalist" element={<JournalistPage />} />
+          <Route path="/edit-article/:id" element={<EditArticle />} />
         </Routes>
       </main>
       <footer>

@@ -1,27 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteArticle, publishArticle, unpublishArticle } from "../redux/actions/adminAction";
+import Error from "../components/Error";
+import Loading from "../components/Loading";
+import BookmarkButton from "../components/BookmarkButton";
+import CommentSection from "../components/CommentSection";
 
 function NewsDetail() {
   const { id } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [notification, setNotification] = useState(null); // State untuk notifikasi
-  const [showNotification, setShowNotification] = useState(false); // Kontrol tampilan notifikasi
+  const [notification, setNotification] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
 
   const apiUrl = import.meta.env.VITE_API_URL;
   const { user } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchArticle = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`${apiUrl}/articles/${id}`);
+
+      let url = `${apiUrl}/articles/detail/${id}`;
+      if (user) {
+        if (user.role === "admin") {
+          url = `${apiUrl}/admin/articles/${id}`;
+        } else if (user.role === "journalist") {
+          url = `${apiUrl}/journalist/articles/${id}`;
+        }
+      }
+
+      const response = await axios.get(url);
       setArticle(response.data);
     } catch (err) {
       setError(err.response?.data?.message || "Terjadi kesalahan saat mengambil data");
@@ -65,20 +81,11 @@ function NewsDetail() {
   };
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-gray">Sedang memuat artikel...</p>
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-heading text-secondary mb-4">Terjadi Kesalahan</h1>
-        <p className="text-gray">{error}</p>
-      </div>
-    );
+    return <Error error={error} onRetry={fetchArticle}></Error>;
   }
 
   if (!article) {
@@ -102,7 +109,7 @@ function NewsDetail() {
 
       <header className="mb-8">
         <h1 className="text-4xl font-heading text-secondary mb-4">{article.title}</h1>
-        <p className="text-gray">Tanggal Publikasi: {article.publishedAt}</p>
+        {article.status == "under review" ? <p className="text-red-600">{article.status}</p> : <p className="text-gray">Tanggal Publikasi: {article.publishedAt}</p>}
       </header>
 
       <section className="mb-8">
@@ -146,12 +153,24 @@ function NewsDetail() {
         </div>
       )}
 
+      {user && user.role === "journalist" && article.author === user.username && (
+        <div className="flex gap-4 mt-6">
+          <button onClick={() => navigate(`/edit-article/${article._id}`)} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+            Edit
+          </button>
+        </div>
+      )}
+
       {showNotification && <div className="fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-md shadow-md z-50">{notification}</div>}
+
+      {user && <BookmarkButton id={article._id}></BookmarkButton>}
 
       <footer className="border-t pt-6 mt-8">
         <p className="text-gray">Ditulis oleh: {article.author}</p>
         <p className="text-gray">Tags: {article.tags.join(", ")}</p>
       </footer>
+
+      <CommentSection article={article} user={user}></CommentSection>
     </div>
   );
 }

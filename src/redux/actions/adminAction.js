@@ -23,7 +23,7 @@ export const fetchAllBerita = createAsyncThunk("berita/fetchAllBerita", async (p
 // Async thunk untuk mengambil data berita under review
 export const fetchUnderBerita = createAsyncThunk("berita/fetchUnderBerita", async (page = 1, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`${apiUrl}/admin/articles/under`, {
+    const response = await axios.get(`${apiUrl}/admin/under`, {
       params: { page, limit: 9 },
     });
 
@@ -123,12 +123,13 @@ export const deleteArticle = createAsyncThunk("articles/delete", async (id, { re
 // Thunk untuk pencarian artikel
 export const fetchSearchArticles = createAsyncThunk("admin/fetchSearchArticles", async ({ query, currentPage }, thunkAPI) => {
   try {
-    const response = await axios.get(`${apiUrl}/admin/articles/search`, {
+    const response = await axios.get(`${apiUrl}/admin/search`, {
       params: {
         query: query,
         page: currentPage,
       },
     });
+
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data || { message: "Something went wrong" });

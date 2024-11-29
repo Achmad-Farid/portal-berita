@@ -55,7 +55,6 @@ const UserContent = () => {
           <option value="">All Roles</option>
           <option value="user">User</option>
           <option value="journalist">Journalist</option>
-          {/* Add more roles as needed */}
         </select>
       </div>
 

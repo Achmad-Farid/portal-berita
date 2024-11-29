@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchBerita } from "../actions/journalistAction";
+import { fetchBerita, fetchArticles, searchArticles } from "../actions/journalistAction";
 
 const beritaSlice = createSlice({
   name: "berita",
@@ -29,6 +29,32 @@ const beritaSlice = createSlice({
         state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchBerita.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(fetchArticles.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchArticles.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.articles = action.payload.articles;
+        state.totalPages = action.payload.totalPages;
+        state.currentPage = action.payload.currentPage;
+      })
+      .addCase(fetchArticles.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(searchArticles.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(searchArticles.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.articles = action.payload.articles;
+        state.totalPages = action.payload.totalPages;
+        state.currentPage = action.payload.currentPage;
+      })
+      .addCase(searchArticles.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

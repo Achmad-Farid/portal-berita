@@ -6,11 +6,11 @@ import Error from "./Error";
 
 function ArticleList({ articles = [], currentPage, totalPages, handlePageChange, status, error, retry }) {
   if (status === "loading") {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   if (error) {
-    return <Error onRetry={retry}></Error>;
+    return <Error message={error} onRetry={retry} />;
   }
 
   return (
@@ -22,11 +22,11 @@ function ArticleList({ articles = [], currentPage, totalPages, handlePageChange,
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <ul className="space-y-6">
             {articles.map((article) => (
-              <ArticleCard key={article._id} article={article} />
+              <ArticleCard article={article} key={article._id}></ArticleCard>
             ))}
-          </div>
+          </ul>
 
           <div className="mt-6 flex justify-center">
             <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />

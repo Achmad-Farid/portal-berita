@@ -3,13 +3,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { submitArticle } from "../redux/actions/journalistAction";
 import Popup from "../components/Popup";
 
+const themes = {
+  nasional: ["hukum", "politik", "pilkada", "peristiwa"],
+  internasional: ["asean", "asia pasifik", "timur tengah", "eropa amerika"],
+  ekonomi: ["Keuangan Energi", "Bisnis", "Makro", "Corporate Action"],
+  olahraga: ["sepak bola", "moto gp", "f1", "badminton"],
+  teknologi: ["sains", "teknologi informasi", "telekomunikasi", "climate"],
+  hiburan: ["film", "musik", "seleb", "seni budaya"],
+  gaya_hidup: ["health", "foods", "travel", "trends"],
+  otomotif: ["mobil", "motor", "info otomotif", "e-vehicle"],
+};
+
 function CreateArticle() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState([{ type: "text", value: "", position: 1 }]);
-  const [tags, setTags] = useState([]);
   const [popupMessage, setPopupMessage] = useState(null);
+  const [selectedTheme, setSelectedTheme] = useState("");
+  const [tags, setTags] = useState([]);
 
   const dispatch = useDispatch();
+
+  const handleThemeChange = (e) => {
+    setSelectedTheme(e.target.value);
+  };
+
+  const handleTagChange = (tag) => {
+    setTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
+  };
 
   // Fungsi untuk menangani perubahan konten
   const handleContentChange = (index, value) => {
@@ -46,6 +66,7 @@ function CreateArticle() {
         setTitle("");
         setContent([{ type: "text", value: "", position: 1 }]);
         setTags([]);
+        setSelectedTheme("");
       })
       .catch((error) => {
         setPopupMessage(`Error: ${error.message}`);
@@ -107,9 +128,39 @@ function CreateArticle() {
         </div>
 
         {/* Input Tag */}
-        <div>
-          <label className="block font-sans text-gray">Tags</label>
-          <input type="text" value={tags.join(",")} onChange={(e) => setTags(e.target.value.split(",").map((tag) => tag.trim()))} className="w-full p-2 border border-gray-300 rounded" placeholder="Separate tags with commas" />
+        <div className="mb-6">
+          <label className="block text-gray-700 font-medium mb-2" htmlFor="theme">
+            Pilih Tema
+          </label>
+          <select id="theme" value={selectedTheme} onChange={handleThemeChange} className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-4">
+            <option value="">-- Pilih Tema --</option>
+            {Object.keys(themes).map((theme) => (
+              <option key={theme} value={theme}>
+                {theme.charAt(0).toUpperCase() + theme.slice(1).replace("_", " ")}
+              </option>
+            ))}
+          </select>
+
+          {selectedTheme && (
+            <div className="mb-4">
+              <h3 className="text-gray-700 font-medium mb-2">Pilih Tag:</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {themes[selectedTheme].map((tag) => (
+                  <label key={tag} className="flex items-center space-x-2">
+                    <input type="checkbox" value={tag} checked={tags.includes(tag)} onChange={() => handleTagChange(tag)} className="form-checkbox h-4 w-4 text-blue-600" />
+                    <span>{tag}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-4">
+            <h3 className="text-gray-700 font-medium">Tag yang Dipilih:</h3>
+            <p className="text-gray-600">
+              <em>{tags.join(", ") || "Belum ada tag yang dipilih."}</em>
+            </p>
+          </div>
         </div>
 
         {/* Tombol Submit */}

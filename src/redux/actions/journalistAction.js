@@ -29,3 +29,45 @@ export const submitArticle = createAsyncThunk("article/submitArticle", async ({ 
     return rejectWithValue(error.response);
   }
 });
+
+// Thunk untuk mengambil artikel berdasarkan status (under review atau published)
+export const fetchArticles = createAsyncThunk("articles/fetchArticles", async ({ status, page, limit, username }, { rejectWithValue }) => {
+  try {
+    // Menggunakan Axios untuk melakukan permintaan HTTP
+    const response = await axios.get(`${apiUrl}/journalist/status`, {
+      params: {
+        status,
+        page,
+        limit,
+        author: username,
+      },
+    });
+
+    // Mengembalikan data jika berhasil
+    return response.data;
+  } catch (error) {
+    // Mengembalikan pesan error jika terjadi kesalahan
+    return rejectWithValue(error.response ? error.response.data : error.message);
+  }
+});
+
+// Thunk untuk mencari artikel berdasarkan query
+export const searchArticles = createAsyncThunk("articles/searchArticles", async ({ query, page, limit, username }, { rejectWithValue }) => {
+  try {
+    // Menggunakan Axios untuk pencarian artikel
+    const response = await axios.get(`${apiUrl}/journalist/search`, {
+      params: {
+        query,
+        page,
+        limit,
+        author: username,
+      },
+    });
+
+    // Mengembalikan data jika berhasil
+    return response.data;
+  } catch (error) {
+    // Mengembalikan pesan error jika terjadi kesalahan
+    return rejectWithValue(error.response ? error.response.data : error.message);
+  }
+});

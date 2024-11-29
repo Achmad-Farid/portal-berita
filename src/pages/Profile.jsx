@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
 import defaultProfileImage from "../assets/default-profile.png";
+import ArticleList from "../components/ArticleList";
+import { fetchBookmarkedArticles } from "../redux/actions/userAction";
+import { setCurrentPage } from "../redux/reducers/userReducer";
 
 function Profile() {
   const [activeTab, setActiveTab] = useState("user");
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { articles, currentPage, totalPages, status, error } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(fetchBookmarkedArticles());
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (page) => {
+    dispatch(setCurrentPage(page));
+  };
+
+  function retry() {
+    dispatch(fetchBookmarkedArticles());
+  }
 
   const handleLogout = async () => {
     try {
@@ -58,19 +74,7 @@ function Profile() {
             </div>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Article Cards */}
-            <div className="bg-white p-4 rounded-lg shadow-lg">
-              <h3 className="font-heading text-lg mb-2 text-neutral-dark">Judul Artikel 1</h3>
-              <p className="text-gray mb-4">Deskripsi singkat artikel ini.</p>
-              <button className="text-accent font-semibold">Baca Selengkapnya</button>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow-lg">
-              <h3 className="font-heading text-lg mb-2 text-neutral-dark">Judul Artikel 2</h3>
-              <p className="text-gray mb-4">Deskripsi singkat artikel ini.</p>
-              <button className="text-accent font-semibold">Baca Selengkapnya</button>
-            </div>
-          </div>
+          <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} error={error} status={status} retry={retry} />
         )}
       </div>
     </div>
