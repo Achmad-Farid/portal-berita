@@ -9,7 +9,7 @@ import Loading from "../components/Loading";
 import BookmarkButton from "../components/BookmarkButton";
 import CommentSection from "../components/CommentSection";
 import { fetchBerita, fetchPopularArticles } from "../redux/actions/articleAction";
-import Sidebar from "../components/SideBar";
+import Sidebar from "../components/Sidebar";
 
 function NewsDetail() {
   const { id } = useParams();
