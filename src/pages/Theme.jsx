@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchArticlesByTheme, fetchBerita } from "../redux/actions/articleAction";
 import { setCurrentPage } from "../redux/reducers/articleReducer";
 import { useEffect } from "react";
-import Sidebar from "../components/SideBar";
+import Sidebar from "../components/Sidebar";
 import { useParams } from "react-router-dom";
 
 function Theme() {
