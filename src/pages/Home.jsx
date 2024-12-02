@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBerita, fetchPopularArticles } from "../redux/actions/articleAction";
 import { setCurrentPage } from "../redux/reducers/articleReducer";
 import { useEffect } from "react";
-import Sidebar from "../components/SideBar";
+import Sidebar from "../components/Sidebar";
 
 function Home() {
   const dispatch = useDispatch();
