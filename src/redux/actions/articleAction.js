@@ -55,3 +55,17 @@ export const fetchPopularArticles = createAsyncThunk("articles/fetchPopularArtic
     return rejectWithValue(error.response.data.message || "Failed to fetch popular articles");
   }
 });
+
+// Thunk untuk mengambil artikel berdasarkan kategori
+export const fetchArticlesByTheme = createAsyncThunk("articles/fetchByTheme", async ({ categoryOrTag, page = 1, limit = 10 }, { rejectWithValue }) => {
+  try {
+    const response = await fetch(`${apiUrl}/articles/category/${categoryOrTag}?page=${page}&limit=${limit}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch articles");
+    }
+    const data = await response.json();
+    return data; // Berisi { articles, totalPages, currentPage }
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});

@@ -4,18 +4,22 @@ import "swiper/css/pagination";
 import ArticleList from "../components/ArticleList";
 import Carrousel from "../components/Carrousel";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBerita } from "../redux/actions/articleAction";
+import { fetchBerita, fetchPopularArticles } from "../redux/actions/articleAction";
 import { setCurrentPage } from "../redux/reducers/articleReducer";
 import { useEffect } from "react";
 import Sidebar from "../components/SideBar";
 
 function Home() {
   const dispatch = useDispatch();
-  const { articles, currentPage, totalPages, status, error } = useSelector((state) => state.articles);
+  const { articles, terkini, popularArticles, currentPage, totalPages, status, error, isLoading, popularError } = useSelector((state) => state.articles);
 
   useEffect(() => {
     dispatch(fetchBerita(currentPage));
   }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    dispatch(fetchPopularArticles());
+  }, [dispatch]);
 
   const handlePageChange = (page) => {
     dispatch(setCurrentPage(page));
@@ -27,8 +31,12 @@ function Home() {
 
   return (
     <>
-      <div>
-        <Carrousel />
+      <div className="mt-4">
+        <div className="text-center flex flex-col">
+          <h1 className="text-3xl font-heading font-bold text-secondary text-center">Selamat Datang di Portal Berita Kami</h1>
+          <h5 className="text-base text-gray">Temukan berita terkini, terpercaya, dan informatif dari berbagai topik pilihan untuk menambah wawasan Anda.</h5>
+        </div>
+        <Carrousel popularArticles={popularArticles} isLoading={isLoading} popularError={popularError} />
       </div>
       <div className="container mx-auto p-4 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
         {/* Konten Utama */}
@@ -40,7 +48,7 @@ function Home() {
         </main>
 
         {/* Sidebar */}
-        <Sidebar editorPicks={articles} popularArticles={articles} />
+        <Sidebar editorPicks={terkini} popularArticles={popularArticles} />
       </div>
     </>
   );

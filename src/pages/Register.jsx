@@ -162,7 +162,7 @@ function Register() {
 
         <p className="text-center text-sm text-secondary mt-4">
           Already have an account?{" "}
-          <a href="/login" className="text-primary hover:underline">
+          <a onClick={() => navigate("/login")} className="text-primary hover:underline cursor-pointer">
             Login here
           </a>
         </p>

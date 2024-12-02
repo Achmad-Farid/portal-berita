@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchBerita, fetchArticlesByCategory, searchArticles, fetchPopularArticles } from "../actions/articleAction";
+import { fetchBerita, fetchArticlesByCategory, searchArticles, fetchPopularArticles, fetchArticlesByTheme } from "../actions/articleAction";
 
 const beritaSlice = createSlice({
   name: "berita",
@@ -17,6 +17,10 @@ const beritaSlice = createSlice({
     popularArticles: [],
     isLoading: false,
     popularError: null,
+    terkini: [],
+    articlesTheme: [],
+    popularTheme: [],
+    category: "",
   },
   reducers: {
     setCurrentPage: (state, action) => {
@@ -35,6 +39,9 @@ const beritaSlice = createSlice({
         state.articles = action.payload.articles;
         state.currentPage = action.payload.currentPage;
         state.totalPages = action.payload.totalPages;
+        if (state.terkini.length === 0 && action.payload.articles.length > 0) {
+          state.terkini = action.payload.articles;
+        }
       })
       .addCase(fetchBerita.rejected, (state, action) => {
         state.status = "failed";
@@ -81,6 +88,22 @@ const beritaSlice = createSlice({
       .addCase(fetchPopularArticles.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(fetchArticlesByTheme.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchArticlesByTheme.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.articlesTheme = action.payload.articles;
+        state.totalPages = action.payload.totalPages;
+        state.currentPage = action.payload.currentPage;
+        state.category = action.meta.arg.category;
+        state.popularTheme = action.payload.popularArticles;
+      })
+      .addCase(fetchArticlesByTheme.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Failed to fetch articles";
       });
   },
 });

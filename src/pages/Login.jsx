@@ -78,7 +78,7 @@ function Login() {
         </div>
         <p className="text-center text-sm text-secondary mt-4">
           Doesn’t have an account?{" "}
-          <a href="/register" className="text-primary hover:underline">
+          <a onClick={() => navigate("/register")} className="text-primary hover:underline cursor-pointer">
             Register here
           </a>
         </p>

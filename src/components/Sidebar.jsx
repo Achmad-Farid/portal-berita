@@ -4,9 +4,9 @@ import Sidelist from "./Sidelist";
 function Sidebar({ editorPicks = [], popularArticles = [] }) {
   return (
     <aside className="w-full md:w-1/4 p-4 bg-gray-50 rounded-lg shadow-md">
-      {/* Pilihan Editor */}
+      {/* Berita Terkini */}
       <section className="mb-6">
-        <h2 className="text-xl font-bold text-secondary mb-4">Pilihan Editor</h2>
+        <h2 className="text-xl font-bold text-secondary mb-4">Berita Terkini</h2>
         <ul className="space-y-4">
           {editorPicks.map((article) => (
             <Sidelist key={article._id} article={article}></Sidelist>

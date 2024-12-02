@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import AdminPage from "./admin/AdminPage";
 import JournalistPage from "./journalist/JournalistPage";
 import EditArticle from "./journalist/EditArticle";
+import Theme from "./pages/Theme";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/journalist" element={<JournalistPage />} />
           <Route path="/edit-article/:id" element={<EditArticle />} />
+          <Route path="/tema/:categoryOrTag" element={<Theme />} />
         </Routes>
       </main>
       <footer>
