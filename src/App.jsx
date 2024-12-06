@@ -43,10 +43,11 @@ export default function App() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 shadow-md bg-white">
-        <Navbar></Navbar>
+      <header className="sticky top-0 z-50 shadow-md bg-white dark:bg-neutral-dark">
+        <Navbar />
       </header>
-      <main className="bg-background-light">
+
+      <main className="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/detail/:id" element={<NewsDetail />} />
@@ -60,8 +61,9 @@ export default function App() {
           <Route path="/tema/:categoryOrTag" element={<Theme />} />
         </Routes>
       </main>
-      <footer>
-        <Footer></Footer>
+
+      <footer className="bg-white dark:bg-neutral-dark">
+        <Footer />
       </footer>
     </>
   );

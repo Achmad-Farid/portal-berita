@@ -75,18 +75,19 @@ function CreateArticle() {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-neutral-light">
+    <div className="container mx-auto p-6 bg-neutral-light dark:bg-background-dark text-neutral-dark dark:text-text-dark">
       <h1 className="text-2xl font-heading text-primary mb-6">Create New Article</h1>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Input Judul Artikel */}
         <div>
-          <label className="block font-sans text-gray">Title</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded" required />
+          <label className="block font-sans text-gray dark:text-text-dark">Title</label>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark" required />
         </div>
 
         {/* Input Konten Artikel */}
         <div>
-          <label className="block font-sans text-gray">Content</label>
+          <label className="block font-sans text-gray dark:text-text-dark">Content</label>
           {content.map((item, index) => (
             <div key={index} className="flex items-start mb-2">
               <select
@@ -96,7 +97,7 @@ function CreateArticle() {
                   newContent[index].type = e.target.value;
                   setContent(newContent);
                 }}
-                className="mr-2 p-1 border border-gray-300 rounded"
+                className="mr-2 p-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark"
               >
                 <option value="text">Text</option>
                 <option value="image">Image URL</option>
@@ -104,9 +105,21 @@ function CreateArticle() {
               </select>
               <div className="flex-1">
                 {item.type === "text" ? (
-                  <textarea value={item.value} onChange={(e) => handleContentChange(index, e.target.value)} className="w-full p-2 border border-gray-300 rounded" placeholder="Enter text" rows={3} />
+                  <textarea
+                    value={item.value}
+                    onChange={(e) => handleContentChange(index, e.target.value)}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark"
+                    placeholder="Enter text"
+                    rows={3}
+                  />
                 ) : (
-                  <input type="text" value={item.value} onChange={(e) => handleContentChange(index, e.target.value)} className="w-full p-2 border border-gray-300 rounded" placeholder={`Enter ${item.type}`} />
+                  <input
+                    type="text"
+                    value={item.value}
+                    onChange={(e) => handleContentChange(index, e.target.value)}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark"
+                    placeholder={`Enter ${item.type}`}
+                  />
                 )}
               </div>
               <button type="button" onClick={() => handleRemoveContent(index)} className="ml-2 text-red-500 underline text-sm">
@@ -129,10 +142,15 @@ function CreateArticle() {
 
         {/* Input Tag */}
         <div className="mb-6">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="theme">
+          <label className="block text-gray-700 dark:text-text-dark font-medium mb-2" htmlFor="theme">
             Pilih Tema
           </label>
-          <select id="theme" value={selectedTheme} onChange={handleThemeChange} className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-4">
+          <select
+            id="theme"
+            value={selectedTheme}
+            onChange={handleThemeChange}
+            className="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-4 bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark"
+          >
             <option value="">-- Pilih Tema --</option>
             {Object.keys(themes).map((theme) => (
               <option key={theme} value={theme}>
@@ -143,11 +161,11 @@ function CreateArticle() {
 
           {selectedTheme && (
             <div className="mb-4">
-              <h3 className="text-gray-700 font-medium mb-2">Pilih Tag:</h3>
+              <h3 className="text-gray-700 dark:text-text-dark font-medium mb-2">Pilih Tag:</h3>
               <div className="grid grid-cols-2 gap-2">
                 {themes[selectedTheme].map((tag) => (
                   <label key={tag} className="flex items-center space-x-2">
-                    <input type="checkbox" value={tag} checked={tags.includes(tag)} onChange={() => handleTagChange(tag)} className="form-checkbox h-4 w-4 text-blue-600" />
+                    <input type="checkbox" value={tag} checked={tags.includes(tag)} onChange={() => handleTagChange(tag)} className="form-checkbox h-4 w-4 text-blue-600 dark:text-blue-400" />
                     <span>{tag}</span>
                   </label>
                 ))}
@@ -156,36 +174,36 @@ function CreateArticle() {
           )}
 
           <div className="mt-4">
-            <h3 className="text-gray-700 font-medium">Tag yang Dipilih:</h3>
-            <p className="text-gray-600">
+            <h3 className="text-gray-700 dark:text-text-dark font-medium">Tag yang Dipilih:</h3>
+            <p className="text-gray-600 dark:text-text-dark">
               <em>{tags.join(", ") || "Belum ada tag yang dipilih."}</em>
             </p>
           </div>
         </div>
 
         {/* Tombol Submit */}
-        <button type="submit" className="bg-primary text-white py-2 px-4 rounded hover:bg-secondary">
+        <button type="submit" className="bg-primary text-white py-2 px-4 rounded hover:bg-secondary dark:hover:bg-secondary">
           Create Article
         </button>
       </form>
 
       {/* Pratinjau Artikel */}
-      <div className="mt-10 p-4 bg-gray-100 rounded">
+      <div className="mt-10 p-4 bg-gray-100 dark:bg-neutral-dark rounded">
         <h2 className="text-xl font-heading text-secondary mb-4">Preview Article</h2>
         <h3 className="text-2xl font-heading text-primary">{title}</h3>
         <div className="mt-4">
           {content.map((item, index) => (
             <div key={index} className="mb-4">
-              {item.type === "text" && <p className="text-gray whitespace-pre-wrap">{item.value}</p>}
+              {item.type === "text" && <p className="text-gray dark:text-text-dark whitespace-pre-wrap">{item.value}</p>}
               {item.type === "image" && <img src={item.value} alt="Content Image" className="w-full h-auto rounded" />}
               {item.type === "subtitle" && <h4 className="text-lg font-heading text-accent">{item.value}</h4>}
             </div>
           ))}
         </div>
         <div className="mt-4">
-          <span className="font-sans text-gray">Tags: </span>
+          <span className="font-sans text-gray dark:text-text-dark">Tags: </span>
           {tags.map((tag, idx) => (
-            <span key={idx} className="inline-block bg-gray-200 text-gray-700 text-xs font-sans rounded-full px-2 py-1 mr-2">
+            <span key={idx} className="inline-block bg-gray-200 dark:bg-neutral-dark text-gray-700 dark:text-text-dark text-xs font-sans rounded-full px-2 py-1 mr-2">
               {tag}
             </span>
           ))}

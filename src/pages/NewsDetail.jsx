@@ -110,7 +110,7 @@ function NewsDetail() {
   }
 
   return (
-    <div className="container mx-auto p-4 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
+    <div className="container mx-auto p-4 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 dark:bg-neutral-dark dark:text-white">
       <div className="container mx-auto px-4 py-8">
         <HelmetProvider>
           <Helmet>
@@ -121,8 +121,8 @@ function NewsDetail() {
         </HelmetProvider>
 
         <header className="mb-8">
-          <h1 className="text-4xl font-heading text-secondary mb-4">{articleDetail.title}</h1>
-          {articleDetail.status == "under review" ? <p className="text-red-600">{articleDetail.status}</p> : <p className="text-gray">Tanggal Publikasi: {articleDetail.publishedAt}</p>}
+          <h1 className="text-4xl font-heading text-secondary mb-4 dark:text-neutral-light">{articleDetail.title}</h1>
+          {articleDetail.status == "under review" ? <p className="text-red-600 dark:text-red-400">{articleDetail.status}</p> : <p className="text-gray dark:text-gray-400">Tanggal Publikasi: {articleDetail.publishedAt}</p>}
         </header>
 
         <section className="mb-8">
@@ -130,13 +130,13 @@ function NewsDetail() {
             switch (item.type) {
               case "text":
                 return (
-                  <p key={index} className="text-lg text-neutral-dark leading-relaxed mb-4 whitespace-pre-line">
+                  <p key={index} className="text-lg text-neutral-dark leading-relaxed mb-4 whitespace-pre-line dark:text-neutral-light">
                     {item.value}
                   </p>
                 );
               case "subtitle":
                 return (
-                  <h2 key={index} className="text-2xl font-heading text-secondary mb-4">
+                  <h2 key={index} className="text-2xl font-heading text-secondary mb-4 dark:text-text-light">
                     {item.value}
                   </h2>
                 );
@@ -151,16 +151,16 @@ function NewsDetail() {
         {user && user.role === "admin" && (
           <div className="flex gap-4 mt-6">
             {articleDetail.status === "under review" && (
-              <button onClick={handlePublish} className="px-4 py-2 bg-green-500 text-white rounded-md">
+              <button onClick={handlePublish} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-600">
                 Publish
               </button>
             )}
             {articleDetail.status === "published" && (
-              <button onClick={handleUnpublish} className="px-4 py-2 bg-yellow-500 text-white rounded-md">
+              <button onClick={handleUnpublish} className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 dark:bg-yellow-700 dark:hover:bg-yellow-600">
                 Unpublish
               </button>
             )}
-            <button onClick={handleDelete} className="px-4 py-2 bg-red-500 text-white rounded-md">
+            <button onClick={handleDelete} className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-600">
               Delete
             </button>
           </div>
@@ -168,7 +168,7 @@ function NewsDetail() {
 
         {user && user.role === "journalist" && articleDetail.author === user.username && (
           <div className="flex gap-4 mt-6">
-            <button onClick={() => navigate(`/edit-article/${articleDetail._id}`)} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+            <button onClick={() => navigate(`/edit-article/${articleDetail._id}`)} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600">
               Edit
             </button>
           </div>
@@ -179,11 +179,11 @@ function NewsDetail() {
         {user && <BookmarkButton id={articleDetail._id}></BookmarkButton>}
 
         <footer className="border-t pt-6 mt-8">
-          <p className="text-gray">Ditulis oleh: {articleDetail.author}</p>
-          <p className="text-gray">
+          <p className="text-gray dark:text-gray-400">Ditulis oleh: {articleDetail.author}</p>
+          <p className="text-gray dark:text-gray-400">
             Tags:{" "}
             {articleDetail.tags.map((tag, index) => (
-              <span className="cursor-pointer" onClick={() => navigate(`/tema/${tag}`)} key={index}>
+              <span className="cursor-pointer dark:text-neutral-light" onClick={() => navigate(`/tema/${tag}`)} key={index}>
                 {tag}
                 {index < articleDetail.tags.length - 1 && ", "}
               </span>

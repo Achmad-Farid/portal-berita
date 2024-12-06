@@ -13,12 +13,12 @@ const AdminPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex min-h-screen bg-neutral-light">
+    <div className="flex min-h-screen bg-neutral-light dark:bg-neutral-dark">
       {/* Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Content */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 bg-neutral-light dark:bg-neutral-800">
         {activeTab === "berita" && <BeritaContent />}
         {activeTab === "user" && <UserContent />}
       </main>

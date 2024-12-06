@@ -38,56 +38,75 @@ function Navbar() {
   };
 
   return (
-    <nav onMouseLeave={() => setActiveDropdown(null)} className="bg-white shadow-sm  w-full z-50">
+    <nav onMouseLeave={() => setActiveDropdown(null)} className="bg-white dark:bg-neutral-dark shadow-sm w-full z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link to="/">
-          <img src={logo} alt="Logo" className="h-10 cursor-pointer" />
+          <img src={logo} alt="Logo" className="h-10 object-contain cursor-pointer" />
         </Link>
-        {/* searhh mobile */}
+
+        {/* search mobile */}
         <div className="md:hidden flex">
-          <input type="text" placeholder="Search..." value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="px-4 py-1 rounded-l-md border shadow-sm focus:ring-2 focus:ring-accent w-full" />
-          <button onClick={handleSearch} className="px-4 py-1 bg-secondary-blue text-neutral-dark border rounded-r-md shadow-md hover:bg-accent">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="px-4 py-1 rounded-l-md border shadow-sm focus:ring-2 focus:ring-accent w-full dark:bg-neutral-dark dark:text-white"
+          />
+          <button onClick={handleSearch} className="px-4 py-1 bg-secondary-blue text-neutral-dark border rounded-r-md shadow-md hover:bg-accent dark:bg-secondary-blue dark:text-neutral-light">
             <MagnifyingGlassIcon className="w-5 h-5" />
           </button>
         </div>
+
         <div className="hidden md:flex gap-4 items-center">
-          <Link to="/" className="hover:text-primary transition-colors duration-200">
+          <Link to="/" className="hover:text-primary transition-colors duration-200 dark:text-neutral-light">
             Home
           </Link>
+
           {tema.map((title) => (
             <div key={title} onMouseEnter={() => handleCategoryHover(title)}>
               <DropdownMenu setActiveDropdown={setActiveDropdown} activeDropdown={activeDropdown} title={title} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
             </div>
           ))}
+
           <div className="flex items-center">
-            <input type="text" placeholder="Search..." value={searchValue} onChange={(e) => setSearchValue(e.target.value)} className="px-4 py-1 rounded-l-md border shadow-sm focus:ring-2 focus:ring-accent w-full" />
-            <button onClick={handleSearch} className="px-4 py-1 bg-secondary-blue text-neutral-dark border rounded-r-md shadow-md hover:bg-accent">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="px-4 py-1 rounded-l-md border shadow-sm focus:ring-2 focus:ring-accent w-full dark:bg-neutral-dark dark:text-white"
+            />
+            <button onClick={handleSearch} className="px-4 py-1 h-full bg-secondary-blue text-neutral-dark border rounded-r-md shadow-md hover:bg-accent dark:bg-secondary-blue dark:text-neutral-light">
               <MagnifyingGlassIcon className="w-5 h-5" />
             </button>
           </div>
+
           {user ? (
-            <Link to="/profile" className="flex items-center gap-2">
+            <Link to="/profile" className="flex items-center gap-2 text-neutral-dark dark:text-neutral-light">
               <img src={user.profilePicture || defaultProfileImage} alt="Profile" className="w-8 h-8 rounded-full object-cover" />
               <span>{user.username}</span>
             </Link>
           ) : (
             <>
-              <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md">
+              <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md dark:bg-primary dark:text-neutral-dark">
                 Daftar
               </Link>
-              <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md">
+              <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md dark:bg-secondary dark:text-neutral-dark">
                 Masuk
               </Link>
             </>
           )}
         </div>
-        <button className="md:hidden p-2 rounded-full hover:bg-gray-100" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+
+        <button className="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-neutral-dark" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
         </button>
       </div>
+
       {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-md p-4">
-          <Link to="/" className="block mb-2 hover:text-primary">
+        <div className="md:hidden bg-white dark:bg-neutral-dark shadow-md p-4">
+          <Link to="/" className="block mb-2 hover:text-primary dark:hover:text-primary">
             Home
           </Link>
           {tema.map((title) => (
@@ -97,16 +116,16 @@ function Navbar() {
           ))}
           <div className="flex flex-col gap-2 mt-4">
             {user ? (
-              <Link to="/profile" className="flex items-center gap-2">
+              <Link to="/profile" className="flex items-center gap-2 text-neutral-dark dark:text-neutral-light">
                 <img src={user.profilePicture || defaultProfileImage} alt="Profile" className="w-8 h-8 rounded-full object-cover" />
                 <span>{user.username}</span>
               </Link>
             ) : (
               <>
-                <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md">
+                <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md dark:bg-primary dark:text-neutral-dark">
                   Daftar
                 </Link>
-                <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md">
+                <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md dark:bg-secondary dark:text-neutral-dark">
                   Masuk
                 </Link>
               </>

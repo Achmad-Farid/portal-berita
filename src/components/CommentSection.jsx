@@ -59,26 +59,30 @@ const CommentSection = ({ article, user }) => {
   }, [comments]);
 
   return (
-    <div className="bg-neutral-light p-6 rounded-lg shadow-lg">
-      <h2 className="text-secondary font-heading text-xl mb-4">Comments</h2>
+    <div className="bg-neutral-light dark:bg-neutral-dark p-6 rounded-lg shadow-lg mt-4">
+      <h2 className="text-secondary dark:text-secondary-dark font-heading text-xl mb-4">Comments</h2>
 
       {/* Form untuk menambahkan komentar */}
       {user ? (
         <form onSubmit={handleAddComment} className="mb-6">
           <textarea
-            className="w-full bg-white border border-gray rounded-lg p-4 text-neutral-dark font-sans text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="w-full bg-white dark:bg-neutral-dark border border-gray dark:border-gray-600 rounded-lg p-4 text-neutral-dark dark:text-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             rows="4"
             placeholder="Add your comment..."
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             disabled={loading}
           ></textarea>
-          <button type="submit" className={`mt-2 ${loading ? "bg-gray cursor-not-allowed" : "bg-primary hover:bg-secondary"} text-white font-heading px-6 py-2 rounded-lg shadow transition`} disabled={loading}>
+          <button
+            type="submit"
+            className={`mt-2 ${loading ? "bg-gray cursor-not-allowed" : "bg-primary hover:bg-secondary"} dark:bg-primary dark:hover:bg-secondary text-white font-heading px-6 py-2 rounded-lg shadow transition`}
+            disabled={loading}
+          >
             {loading ? "Posting..." : "Post Comment"}
           </button>
         </form>
       ) : (
-        <button onClick={() => navigate("/login")} className="bg-primary text-white font-heading px-6 py-2 rounded-lg shadow hover:bg-secondary transition mb-4">
+        <button onClick={() => navigate("/login")} className="bg-primary dark:bg-primary text-white font-heading px-6 py-2 rounded-lg shadow hover:bg-secondary dark:hover:bg-secondary transition mb-4">
           Log in to comment
         </button>
       )}
@@ -88,13 +92,13 @@ const CommentSection = ({ article, user }) => {
       {/* Daftar komentar */}
       <div className="space-y-4">
         {comments.map((comment, index) => (
-          <div key={index} className="bg-white p-4 rounded-lg shadow flex justify-between items-start">
+          <div key={index} className="bg-white dark:bg-neutral-700 p-4 rounded-lg shadow flex justify-between items-start">
             <div>
-              <p className="text-neutral-dark font-sans text-sm">{comment.content}</p>
-              <span className="text-gray text-xs">{`Posted by ${comment.author || "Anonymous"} on ${new Date(comment.createdAt).toLocaleDateString()}`}</span>
+              <p className="text-neutral-dark dark:text-white font-sans text-sm">{comment.content}</p>
+              <span className="text-gray dark:text-gray-400 text-xs">{`Posted by ${comment.author || "Anonymous"} on ${new Date(comment.createdAt).toLocaleDateString()}`}</span>
             </div>
             {(user?.role !== "admin" && user?.username === comment.author) || user?.role === "admin" ? (
-              <button onClick={() => handleDeleteComment(comment._id)} className="text-red-500 text-sm hover:underline" disabled={loading}>
+              <button onClick={() => handleDeleteComment(comment._id)} className="text-red-500 dark:text-red-400 text-sm hover:underline" disabled={loading}>
                 Delete
               </button>
             ) : null}

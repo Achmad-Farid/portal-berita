@@ -60,15 +60,22 @@ const BeritaContent = () => {
   }
 
   return (
-    <div>
+    <div className="bg-neutral-light dark:bg-neutral-dark text-neutral-dark dark:text-text-dark p-6">
       <h2 className="text-xl font-bold mb-4">Berita</h2>
+
       {/* Search and Filter */}
       <div className="flex items-center mb-4 space-x-4">
-        <input type="text" placeholder="Search..." className="border p-2 rounded w-full max-w-xs" value={searchQuery} onChange={handleSearchChange} />
-        <button onClick={handleSearchClick} className="bg-blue-500 text-white px-4 py-2 rounded">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="border p-2 rounded w-full max-w-xs bg-neutral-light dark:bg-neutral-700 text-neutral-dark dark:text-text-dark focus:outline-none"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        <button onClick={handleSearchClick} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400 focus:outline-none">
           Search
         </button>
-        <select className="border p-2 rounded" value={filter} onChange={handleFilterChange}>
+        <select className="border p-2 rounded bg-neutral-light dark:bg-neutral-700 text-neutral-dark dark:text-text-dark focus:outline-none" value={filter} onChange={handleFilterChange}>
           <option value="all">All</option>
           <option value="published">Published</option>
           <option value="underReview">Under Review</option>

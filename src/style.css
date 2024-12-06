@@ -30,3 +30,11 @@
 .slide-out {
   animation: slideOut 0.3s forwards;
 }
+
+@media (prefers-color-scheme: dark) {
+  /* Kode CSS khusus untuk dark mode */
+  body {
+    background-color: #333;
+    color: #fff;
+  }
+}

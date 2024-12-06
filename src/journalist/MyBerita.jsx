@@ -52,19 +52,25 @@ const BeritaContent = ({ username }) => {
   };
 
   return (
-    <div>
+    <div className="p-6 bg-neutral-light dark:bg-background-dark text-neutral-dark dark:text-text-dark">
       <h2 className="text-xl font-bold mb-4">Berita</h2>
 
       {/* Search dan Filter */}
       <div className="flex items-center mb-4 space-x-4">
-        <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border p-2 rounded w-full max-w-xs" />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border p-2 rounded w-full max-w-xs bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark placeholder-gray-400 dark:placeholder-gray-600"
+        />
         <select
           value={filterStatus}
           onChange={(e) => {
             setFilterStatus(e.target.value);
             setSearchQuery(""); // Reset pencarian saat filter berubah
           }}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white dark:bg-neutral-dark text-neutral-dark dark:text-text-dark"
         >
           <option value="all">All</option>
           <option value="published">Published</option>

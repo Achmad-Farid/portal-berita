@@ -37,17 +37,17 @@ function DropdownMenu({ title, setActiveDropdown, activeDropdown, activeCategory
       onMouseEnter={() => setActiveDropdown(title)} // Aktifkan dropdown saat mouse masuk
     >
       <div onClick={() => navigate(`/tema/${title}`)} className="relative group">
-        <h2 className={`cursor-pointer transition-colors duration-200 ${isActive ? "text-primary" : "hover:text-primary"}`}>{title}</h2>
+        <h2 className={`cursor-pointer transition-colors duration-200 ${isActive ? "text-primary" : "hover:text-primary"} dark:text-text-dark`}>{title}</h2>
         <div className={`absolute bottom-0 left-0 h-[2px] bg-primary transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`}></div>
       </div>
 
       <div className={`fixed left-1/2 transform -translate-x-1/2 w-screen z-10 bg-transparent shadow-lg rounded overflow-hidden transition-all duration-300 ease-in-out ${isActive ? "max-h-screen slide-down" : "max-h-0 slide-up"} mt-4`}>
-        <div className="flex justify-around px-96 mx-auto bg-neutral-light">
+        <div className="flex justify-around px-96 mx-auto bg-neutral-light dark:bg-neutral-dark">
           {tags.map((cat, index) => (
             <div
               onClick={() => navigate(`/tema/${cat}`)}
               key={index}
-              className={`p-2 rounded transition-colors duration-200 ${activeCategory === cat ? "bg-primary text-white" : "hover:bg-neutral-dark hover:text-white"}`}
+              className={`p-2 rounded transition-colors duration-200 ${activeCategory === cat ? "bg-primary text-white" : "hover:bg-neutral-dark hover:text-white dark:hover:bg-neutral-light dark:hover:text-gray-900"}`}
               onMouseEnter={() => setActiveCategory(cat)}
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -56,7 +56,7 @@ function DropdownMenu({ title, setActiveDropdown, activeDropdown, activeCategory
         </div>
 
         {/* Bagian artikel */}
-        <div className="grid gap-4 p-4 mx-auto bg-neutral-light grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-4 p-4 mx-auto bg-neutral-light dark:bg-neutral-dark grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {articles.slice(0, itemsPerRow).map((article) => (
             <ArticleCard key={article._id} article={article} />
           ))}

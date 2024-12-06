@@ -16,15 +16,15 @@ function ArticleList({ articles = [], currentPage, totalPages, handlePageChange,
   return (
     <div className="container mx-auto p-4">
       {articles.length === 0 ? (
-        <div className="text-center text-neutral-dark">
-          <p className="text-2xl font-semibold text-accent mb-4">Oops! No articles available.</p>
-          <p className="text-lg text-gray-500">Try again later or check out other sections of the website.</p>
+        <div className="text-center text-neutral-dark dark:text-neutral-light">
+          <p className="text-2xl font-semibold text-accent mb-4 dark:text-accent">Oops! No articles available.</p>
+          <p className="text-lg text-gray-500 dark:text-gray-400">Try again later or check out other sections of the website.</p>
         </div>
       ) : (
         <>
           <ul className="space-y-6">
             {articles.map((article) => (
-              <ArticleCard article={article} key={article._id}></ArticleCard>
+              <ArticleCard article={article} key={article._id} />
             ))}
           </ul>
 

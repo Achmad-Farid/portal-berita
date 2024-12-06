@@ -117,57 +117,77 @@ function EditArticle() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-neutral-light dark:bg-neutral-dark text-neutral-dark dark:text-text-dark">
       <h1 className="text-2xl font-bold mb-4">Edit Artikel</h1>
 
       {/* Edit Title */}
       <div className="mb-6">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="title">
+        <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300" htmlFor="title">
           Judul Artikel
         </label>
-        <input id="title" type="text" value={article.title} onChange={(e) => handleChange("title", e.target.value)} className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" />
-        <p className="mt-2 text-gray-600">
+        <input
+          id="title"
+          type="text"
+          value={article.title}
+          onChange={(e) => handleChange("title", e.target.value)}
+          className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 bg-neutral-light dark:bg-neutral-700 text-neutral-dark dark:text-text-dark"
+        />
+        <p className="mt-2 text-gray-600 dark:text-gray-400">
           Preview: <strong>{article.title}</strong>
         </p>
       </div>
 
       {/* Edit Content */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Konten</h2>
+        <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">Konten</h2>
         {article.content.map((item, index) => (
-          <div key={index} className="mb-6 border p-4 rounded-md">
-            <label className="block text-gray-700 font-medium mb-2">Tipe</label>
-            <select value={item.type} onChange={(e) => handleContentChange(index, "type", e.target.value)} className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-2">
+          <div key={index} className="mb-6 border p-4 rounded-md bg-white dark:bg-neutral-700 dark:border-neutral-600">
+            <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300">Tipe</label>
+            <select
+              value={item.type}
+              onChange={(e) => handleContentChange(index, "type", e.target.value)}
+              className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-2 bg-neutral-light dark:bg-neutral-700 text-neutral-dark dark:text-text-dark"
+            >
               <option value="text">Text</option>
               <option value="subtitle">Subtitle</option>
               <option value="image">Image</option>
             </select>
 
-            <label className="block text-gray-700 font-medium mb-2">Konten</label>
-            <input type="text" value={item.value} onChange={(e) => handleContentChange(index, "value", e.target.value)} className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-2" />
+            <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300">Konten</label>
+            <input
+              type="text"
+              value={item.value}
+              onChange={(e) => handleContentChange(index, "value", e.target.value)}
+              className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-2 bg-neutral-light dark:bg-neutral-700 text-neutral-dark dark:text-text-dark"
+            />
 
-            <p className="mt-2 text-gray-600">Preview:</p>
-            {item.type === "text" && <p className="text-lg text-neutral-dark leading-relaxed whitespace-pre-line">{item.value}</p>}
-            {item.type === "subtitle" && <h2 className="text-2xl font-heading text-secondary">{item.value}</h2>}
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Preview:</p>
+            {item.type === "text" && <p className="text-lg text-neutral-dark dark:text-text-dark leading-relaxed whitespace-pre-line">{item.value}</p>}
+            {item.type === "subtitle" && <h2 className="text-2xl font-heading text-secondary dark:text-secondary">{item.value}</h2>}
             {item.type === "image" && <img src={item.value} alt="Preview" className="w-full h-auto object-cover rounded-md shadow-md" />}
 
-            <button onClick={() => handleContentRemove(index)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+            <button onClick={() => handleContentRemove(index)} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 dark:hover:bg-red-500">
               Hapus
             </button>
           </div>
         ))}
 
-        <button onClick={handleContentAdd} className="mb-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+        <button onClick={handleContentAdd} className="mb-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-500">
           Tambah Konten Baru
         </button>
       </div>
 
       {/* Edit Tags */}
       <div className="mb-6">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="theme">
+        <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300" htmlFor="theme">
           Pilih Tema
         </label>
-        <select id="theme" value={selectedTheme} onChange={handleThemeChange} className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-4">
+        <select
+          id="theme"
+          value={selectedTheme}
+          onChange={handleThemeChange}
+          className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 mb-4 bg-neutral-light dark:bg-neutral-700 text-neutral-dark dark:text-text-dark"
+        >
           <option value="">-- Pilih Tema --</option>
           {Object.keys(themes).map((theme) => (
             <option key={theme} value={theme}>
@@ -178,12 +198,12 @@ function EditArticle() {
 
         {selectedTheme && (
           <div className="mb-4">
-            <h3 className="text-gray-700 font-medium mb-2">Pilih Tag:</h3>
+            <h3 className="text-gray-700 font-medium mb-2 dark:text-gray-300">Pilih Tag:</h3>
             <div className="grid grid-cols-2 gap-2">
               {themes[selectedTheme].map((tag) => (
                 <label key={tag} className="flex items-center space-x-2">
-                  <input type="checkbox" value={tag} checked={selectedTags.includes(tag)} onChange={() => handleTagChange(tag)} className="form-checkbox h-4 w-4 text-blue-600" />
-                  <span>{tag}</span>
+                  <input type="checkbox" value={tag} checked={selectedTags.includes(tag)} onChange={() => handleTagChange(tag)} className="form-checkbox h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-neutral-dark dark:text-text-dark">{tag}</span>
                 </label>
               ))}
             </div>
@@ -191,8 +211,8 @@ function EditArticle() {
         )}
 
         <div className="mt-4">
-          <h3 className="text-gray-700 font-medium">Tag yang Dipilih:</h3>
-          <p className="text-gray-600">
+          <h3 className="text-gray-700 font-medium dark:text-gray-300">Tag yang Dipilih:</h3>
+          <p className="text-gray-600 dark:text-gray-400">
             <em>{selectedTags.join(", ") || "Belum ada tag yang dipilih."}</em>
           </p>
         </div>
@@ -200,10 +220,10 @@ function EditArticle() {
 
       {/* Action Buttons */}
       <div className="flex justify-end gap-4">
-        <button onClick={handleCancel} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+        <button onClick={handleCancel} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 dark:bg-neutral-600 dark:text-gray-200 dark:hover:bg-neutral-500">
           Cancel
         </button>
-        <button onClick={handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+        <button onClick={handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600">
           Submit
         </button>
       </div>

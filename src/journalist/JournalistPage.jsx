@@ -12,7 +12,7 @@ const JournalistPage = () => {
     dispatch(checkSession());
   }, [dispatch]);
   return (
-    <div className="flex min-h-screen bg-neutral-light">
+    <div className="flex min-h-screen bg-neutral-light dark:bg-background-dark text-neutral-dark dark:text-text-dark">
       {/* Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 

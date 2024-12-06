@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "media",
   theme: {
     extend: {
       colors: {
@@ -14,12 +15,20 @@ export default {
         gray: {
           DEFAULT: "#666666",
         },
+        background: {
+          light: "#FFFFFF",
+          dark: "#1a1a1a",
+        },
+        text: {
+          light: "#333333",
+          dark: "#F9F9F9",
+        },
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"], // Font utama (tubuh teks)
-        heading: ["Poppins", "sans-serif"], // Font untuk judul (heading)
+        sans: ["Inter", "sans-serif"],
+        heading: ["Poppins", "sans-serif"],
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 };

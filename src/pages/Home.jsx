@@ -31,18 +31,19 @@ function Home() {
 
   return (
     <>
-      <div className="mt-4">
+      <div className="pt-4">
         <div className="text-center flex flex-col">
-          <h1 className="text-3xl font-heading font-bold text-secondary text-center">Selamat Datang di Portal Berita Kami</h1>
-          <h5 className="text-base text-gray">Temukan berita terkini, terpercaya, dan informatif dari berbagai topik pilihan untuk menambah wawasan Anda.</h5>
+          <h1 className="text-3xl font-heading font-bold text-secondary dark:text-text-dark text-center">Selamat Datang di Portal Berita Kami</h1>
+          <h5 className="text-base text-gray dark:text-gray-400">Temukan berita terkini, terpercaya, dan informatif dari berbagai topik pilihan untuk menambah wawasan Anda.</h5>
         </div>
         <Carrousel popularArticles={popularArticles} isLoading={isLoading} popularError={popularError} />
       </div>
+
       <div className="container mx-auto p-4 flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
         {/* Konten Utama */}
         <main className="w-full md:w-3/4">
           <div className="text-center gap-4 flex flex-col mb-6">
-            <h1 className="text-3xl font-heading font-bold text-secondary text-center">Artikel Terbaru</h1>
+            <h1 className="text-3xl font-heading font-bold text-secondary dark:text-text-dark text-center">Artikel Terbaru</h1>
           </div>
           <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} error={error} status={status} retry={retry} />
         </main>
