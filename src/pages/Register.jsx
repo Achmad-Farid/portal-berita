@@ -15,19 +15,19 @@ function Register() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const dispatch = useDispatch();
-  const { loading, error, user } = useSelector((state) => state.auth);
+  const { loading, error, user, isAuthenticated } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Tampilkan popup sukses jika pendaftaran berhasil
-    if (user) {
+    if (isAuthenticated) {
       setShowSuccessPopup(true);
       setTimeout(() => {
         setShowSuccessPopup(false);
         navigate("/login");
       }, 2000);
     }
-  }, [user, navigate]);
+  }, [isAuthenticated, navigate]);
 
   const handleGoogleLogin = () => {
     loginWithGoogle();
