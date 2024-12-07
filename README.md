@@ -47,7 +47,7 @@ You can also view the live preview of the website at [Portal Berita](https://por
 ![admin](./public/adminDashboard.png)
 ![journalist](./public/journalistDashboard.png)
 
-this web can be downloaded in mobile with PWA
+## This website can be installed on mobile devices as a Progressive Web App (PWA)
 ![mobile](./public/mobile.jpg)
 
 ### Admin & Journalist Login
