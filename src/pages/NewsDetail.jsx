@@ -136,7 +136,7 @@ function NewsDetail() {
                 );
               case "subtitle":
                 return (
-                  <h2 key={index} className="text-2xl font-heading text-secondary mb-4 dark:text-text-light">
+                  <h2 key={index} className="text-2xl font-heading text-secondary mb-4 dark:text-neutral-light">
                     {item.value}
                   </h2>
                 );
