@@ -26,14 +26,16 @@ Portal Berita is a news portal built using React and Vite. The project is fully 
    ```
 
 3. For backend, clone and run [portal-berita-backend](https://github.com/Achmad-Farid/portal-berita-backend).
+   
+4. add .env
 
-4. Start the frontend development server:
+5. Start the frontend development server:
 
    ```bash
    npm run dev
    ```
 
-5. Open your browser at [http://localhost:3000](http://localhost:3000) to view the portal.
+6. Open your browser at [http://localhost to view the portal berita.
 
 ### Preview
 
