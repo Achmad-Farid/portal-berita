@@ -42,6 +42,7 @@ You can also view the live preview of the website at [Portal Berita](https://por
 ![home](./public/home.png)
 ![navbar](./public/navbar.png)
 ![detail](./public/detail.png)
+![detail](./public/profile.png)
 ![admin](./public/adminDashboard.png)
 ![journalist](./public/journalistDashboard.png)
 
