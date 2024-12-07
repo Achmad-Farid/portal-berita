@@ -9,11 +9,12 @@ import SearchResult from "./pages/SearchResult";
 import Profile from "./pages/Profile";
 import { useEffect } from "react";
 import { checkSession } from "./redux/actions/authActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AdminPage from "./admin/AdminPage";
 import JournalistPage from "./journalist/JournalistPage";
 import EditArticle from "./journalist/EditArticle";
 import Theme from "./pages/Theme";
+import ProtectedRoute from "./protectedRoute";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ export default function App() {
     dispatch(checkSession());
   }, [dispatch]);
 
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <>
       <header className="sticky top-0 z-50 shadow-md bg-white dark:bg-neutral-dark">
@@ -55,10 +58,32 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/search/:query" element={<SearchResult />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/journalist" element={<JournalistPage />} />
-          <Route path="/edit-article/:id" element={<EditArticle />} />
           <Route path="/tema/:categoryOrTag" element={<Theme />} />
+          {/* route proteksi */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute role="admin" user={user}>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/journalist"
+            element={
+              <ProtectedRoute role="journalist" user={user}>
+                <JournalistPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-article/:id"
+            element={
+              <ProtectedRoute role="journalist" user={user}>
+                <EditArticle />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
 

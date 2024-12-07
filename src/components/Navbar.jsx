@@ -89,10 +89,10 @@ function Navbar() {
             </Link>
           ) : (
             <>
-              <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md dark:bg-primary dark:text-neutral-dark">
+              <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md dark:bg-primary dark:text-neutral-light">
                 Daftar
               </Link>
-              <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md dark:bg-secondary dark:text-neutral-dark">
+              <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md dark:bg-secondary dark:text-neutral-light">
                 Masuk
               </Link>
             </>
@@ -122,10 +122,10 @@ function Navbar() {
               </Link>
             ) : (
               <>
-                <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md dark:bg-primary dark:text-neutral-dark">
+                <Link to="/register" className="text-center px-3 py-2 bg-primary text-white rounded-md dark:bg-primary dark:text-neutral-light">
                   Daftar
                 </Link>
-                <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md dark:bg-secondary dark:text-neutral-dark">
+                <Link to="/login" className="text-center px-3 py-2 bg-secondary text-white rounded-md dark:bg-secondary dark:text-neutral-light">
                   Masuk
                 </Link>
               </>
