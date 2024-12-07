@@ -111,7 +111,7 @@ function Navbar() {
           </Link>
           {tema.map((title) => (
             <div key={title} onClick={() => setIsMenuOpen(false)}>
-              <DropdownMenu setActiveDropdown={setActiveDropdown} activeDropdown={activeDropdown} title={title} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+              <DropdownMenu title={title} />
             </div>
           ))}
           <div className="flex flex-col gap-2 mt-4">
