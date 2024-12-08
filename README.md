@@ -52,6 +52,12 @@ You can also view the live preview of the website at [Portal Berita](https://por
 
 ### Admin & Journalist Login
 
+# if you install this project on local you need to manually change role user to admin in databases
+
+# in admin dashboard you can change role user to journalist
+
+# if you want to try in live server [Portal Berita](https://portal-berita-wh1t.vercel.app/), you can login as admin or journalist with this account
+
 - Admin login:  
   Username: `admin`  
   Password: `123`
